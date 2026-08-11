@@ -7,13 +7,13 @@ $isLoggedIn = isset($_SESSION['user_id']) &&
               isset($_SESSION['role']) &&
               $_SESSION['role'] === 'resident';
 
-              $conn = new mysqli(
+   // DB CONNECTION
+$conn = new mysqli(
     "localhost",
-    "u820562602_fleurscents",
-    "Aa2RmDG?Pe0",
-    "u820562602_fleurscents_db"
+    "u823857209_enviromanage",
+    "Enviromanage4322",
+    "u823857209_enviromanage"
 );
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }

@@ -6,13 +6,13 @@ $isLoggedIn = isset($_SESSION['user_id']) &&
               $_SESSION['role'] === 'resident';
 
 
+// DB CONNECTION
 $conn = new mysqli(
     "localhost",
-    "u820562602_fleurscents",
-    "Aa2RmDG?Pe0",
-    "u820562602_fleurscents_db"
+    "u823857209_enviromanage",
+    "Enviromanage4322",
+    "u823857209_enviromanage"
 );
-
 
 if($conn->connect_error){
     die("Connection failed: ".$conn->connect_error);
@@ -1265,6 +1265,39 @@ textarea.form-control{
 
     font-size:40px;
 
+}
+/* =========================
+   MODAL STACKING
+========================= */
+
+/* My Complaints */
+#complaintsModal {
+    z-index: 1050;
+}
+
+/* Complaint Details */
+#complaintDetailsModal {
+    z-index: 1060;
+}
+
+/* Appeal Complaint - FRONT */
+#appealModal {
+    z-index: 1070;
+}
+
+/* Default Bootstrap backdrop */
+.modal-backdrop {
+    z-index: 1040;
+}
+
+/* Backdrop when Complaint Details is open */
+.modal-backdrop.details-backdrop {
+    z-index: 1055;
+}
+
+/* Backdrop when Appeal is open */
+.modal-backdrop.appeal-backdrop {
+    z-index: 1065;
 }
 </style>
 
@@ -2545,6 +2578,7 @@ confirmButtonColor:"#1e5631"
 });
 
 }
+
 function viewComplaints(){
 
     fetch("resident-get-complaints.php")
@@ -2943,6 +2977,66 @@ function openAppealModal(complaintID){
         let modal =
             bootstrap.Modal.getOrCreateInstance(modalElement);
 
+            function openAppealModal(id){
+
+    const detailsModalEl =
+        document.getElementById("complaintDetailsModal");
+
+    const appealModalEl =
+        document.getElementById("appealModal");
+
+    // Save complaint ID
+    document.getElementById("appealComplaintId").value = id;
+
+    // Hide Complaint Details
+    if(detailsModalEl){
+
+        const detailsModal =
+            bootstrap.Modal.getOrCreateInstance(
+                detailsModalEl
+            );
+
+        detailsModal.hide();
+    }
+
+    // Open Appeal Modal
+    if(appealModalEl){
+
+        const appealModal =
+            bootstrap.Modal.getOrCreateInstance(
+                appealModalEl
+            );
+
+        appealModal.show();
+    }
+}
+const appealModalEl =
+    document.getElementById("appealModal");
+
+if(appealModalEl){
+
+    appealModalEl.addEventListener(
+        "hidden.bs.modal",
+        function(){
+
+            // Show Complaint Details again
+            const detailsModalEl =
+                document.getElementById(
+                    "complaintDetailsModal"
+                );
+
+            if(detailsModalEl){
+
+                const detailsModal =
+                    bootstrap.Modal.getOrCreateInstance(
+                        detailsModalEl
+                    );
+
+                detailsModal.show();
+            }
+        }
+    );
+}
         modal.show();
 
     })
@@ -2976,8 +3070,114 @@ document.addEventListener("input", function(e){
     }
 
 });
+/* =========================
+   APPEAL MODAL STACKING
+========================= */
+
+document.addEventListener("show.bs.modal", function(e) {
+
+    if (e.target.id !== "appealModal") {
+        return;
+    }
+
+    const appealModal = e.target;
+
+ 
+    // Wait for Bootstrap to create the backdrop
+    setTimeout(function(){
+
+        const backdrops =
+            document.querySelectorAll(".modal-backdrop");
+
+        if(backdrops.length > 0){
+
+            // The newest backdrop belongs to Appeal Modal
+            const appealBackdrop =
+                backdrops[backdrops.length - 1];
+
+            appealBackdrop.classList.add(
+                "appeal-backdrop"
+            );
+        }
+
+    }, 10);
+
+});
 
 
+document.addEventListener("shown.bs.modal", function(e) {
+
+    if (e.target.id !== "appealModal") {
+        return;
+    }
+
+    const detailsModal =
+        document.getElementById("complaintDetailsModal");
+
+    const complaintsModal =
+        document.getElementById("complaintsModal");
+
+    /*
+       Keep both previous modals visible
+       but underneath the Appeal Modal.
+    */
+
+    if(detailsModal &&
+       detailsModal.classList.contains("show")){
+
+        
+    }
+
+    if(complaintsModal &&
+       complaintsModal.classList.contains("show")){
+
+}
+});
+
+
+document.addEventListener("hidden.bs.modal", function(e) {
+
+    if (e.target.id !== "appealModal") {
+        return;
+    }
+
+    /*
+       Remove Appeal backdrop styling
+       after Appeal is closed.
+    */
+
+    document
+        .querySelectorAll(".modal-backdrop")
+        .forEach(function(backdrop){
+
+            backdrop.classList.remove(
+                "appeal-backdrop"
+            );
+
+        });
+
+    /*
+       Restore normal modal stacking.
+    */
+
+    const detailsModal =
+        document.getElementById("complaintDetailsModal");
+
+    const complaintsModal =
+        document.getElementById("complaintsModal");
+
+    if(detailsModal &&
+       detailsModal.classList.contains("show")){
+
+      
+    }
+
+    if(complaintsModal &&
+       complaintsModal.classList.contains("show")){
+
+    }
+
+});
 /* =========================
    SUBMIT APPEAL
 ========================= */
@@ -3508,14 +3708,32 @@ if(item.photos && item.photos.length > 0){
     loadPhotos(item.photos);
 }
 
-const detailsModalEl = document.getElementById("complaintDetailsModal");
+const complaintsModalEl =
+    document.getElementById("complaintsModal");
+
+const detailsModalEl =
+    document.getElementById("complaintDetailsModal");
 
 if(detailsModalEl){
 
-    const modalInstance = bootstrap.Modal.getOrCreateInstance(detailsModalEl);
+    // Hide My Complaints first
+    if(complaintsModalEl){
 
-    modalInstance.show();
+        const complaintsModal =
+            bootstrap.Modal.getOrCreateInstance(
+                complaintsModalEl
+            );
 
+        complaintsModal.hide();
+    }
+
+    // Open Complaint Details
+    const detailsModal =
+        bootstrap.Modal.getOrCreateInstance(
+            detailsModalEl
+        );
+
+    detailsModal.show();
 }
 
 });
@@ -3570,12 +3788,27 @@ detailsModal.addEventListener("show.bs.modal",function(){
 });
 
 
-detailsModal.addEventListener("hidden.bs.modal",function(){
+detailsModal.addEventListener(
+    "hidden.bs.modal",
+    function(){
 
-    document.body.classList.remove("details-open");
+        document.body.classList.remove("details-open");
 
-});
+        // Show My Complaints again
+        const complaintsModalEl =
+            document.getElementById("complaintsModal");
 
+        if(complaintsModalEl){
+
+            const complaintsModal =
+                bootstrap.Modal.getOrCreateInstance(
+                    complaintsModalEl
+                );
+
+            complaintsModal.show();
+        }
+    }
+);
 function confirmLogout(){
 
 Swal.fire({
