@@ -57,12 +57,12 @@ try {
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'dianapanugabsit@gmail.com';
-    $mail->Password   = 'fvheirmeqpauyqnx';
+    $mail->Username   = 'enviromngsariaya@gmail.com';
+    $mail->Password   = 'izdafogfhwybkcjt';
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port       = 465;
 
-    $mail->setFrom('dianapanugabsit@gmail.com', 'EnviroManage');
+    $mail->setFrom('enviromngsariaya@gmail.com', 'EnviroManage');
     $mail->addAddress($email, $user['username']);
     $mail->isHTML(true);
     $mail->Subject = 'EnviroManage Password Reset Code';

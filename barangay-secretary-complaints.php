@@ -3281,20 +3281,6 @@ placeholder="Enter remarks before forwarding or returning...">
 </textarea>
 
 
-<div
-id="returnReasonBox"
-class="alert alert-danger mt-3"
-style="display:none;">
-
-<strong>
-Reason for Return
-</strong>
-
-<hr>
-
-<p id="returnReasonText" class="mb-0"></p>
-
-</div>
 
 
 </div> <!-- end right column -->
@@ -3388,71 +3374,59 @@ Return to Resident
 
 </div>
 <!-- ==========================================
-     RETURN MODAL
+     RETURN CONFIRMATION
 ========================================== -->
 
-<div class="modal fade" id="returnModal" tabindex="-1">
+<div class="modal fade" id="returnConfirmModal" tabindex="-1">
 
     <div class="modal-dialog modal-dialog-centered confirm-modal">
 
         <div class="modal-content">
-<div class="modal-header">
 
-<h5>
+            <div class="modal-header">
 
-Return Complaint
+                <h5>
+                    Return Complaint
+                </h5>
 
-</h5>
+            </div>
 
-</div>
 
-<div class="modal-body">
+            <div class="modal-body">
 
-<label class="form-label">
+                <p>
+                    Are you sure you want to return this complaint to the resident?
+                </p>
 
-Reason for returning
+            </div>
 
-</label>
 
-<textarea
+            <div class="modal-footer">
 
-id="returnReasonInput"
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
 
-class="form-control"
+                    Cancel
 
-rows="4">
+                </button>
 
-</textarea>
 
-</div>
+                <button
+                    type="button"
+                    id="confirmReturnBtn"
+                    class="btn btn-danger">
 
-<div class="modal-footer">
+                    Return
 
-<button
+                </button>
 
-class="btn btn-secondary"
+            </div>
 
-data-bs-dismiss="modal">
+        </div>
 
-Cancel
-
-</button>
-
-<button
-
-class="btn btn-danger"
-
-id="confirmReturnBtn">
-
-Return
-
-</button>
-
-</div>
-
-</div>
-
-</div>
+    </div>
 
 </div>
 
@@ -3549,8 +3523,361 @@ Return
         </div>
     </div>
 </div>
+<!-- ======================================
+     APPEAL REVIEW MODAL
+====================================== -->
+
+<div
+    class="modal fade"
+    id="appealReviewModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-dialog-scrollable view-modal">
+
+        <div class="modal-content">
+
+            <!-- HEADER -->
+
+            <div class="modal-header">
+
+                <h4 class="modal-title">
+                    Review Appeal
+                </h4>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
 
 
+            <!-- BODY -->
+
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <!-- ==================================
+                         LEFT
+                    ================================== -->
+
+                    <div class="col-lg-4">
+
+                        <div class="text-center">
+
+                            <img
+                                id="appealModalAvatar"
+                                src=""
+                                class="rounded-circle shadow mb-3"
+                            >
+
+                            <h4 id="appealModalName"></h4>
+
+                            <span
+                                id="appealModalStatus"
+                                class="badge">
+                            </span>
+
+                        </div>
+
+                        <hr>
+
+
+                        <div class="row complaint-info-mobile">
+
+                            <!-- COMPLAINT ID -->
+
+                            <div class="col-6">
+
+                                <div class="info-item">
+
+                                    <strong>
+                                        Complaint ID
+                                    </strong>
+
+                                    <p id="appealModalID"></p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DATE SUBMITTED -->
+
+                            <div class="col-6">
+
+                                <div class="info-item">
+
+                                    <strong>
+                                        Date Submitted
+                                    </strong>
+
+                                    <p id="appealModalDate"></p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- CATEGORY -->
+
+                            <div class="col-6">
+
+                                <div class="info-item">
+
+                                    <strong>
+                                        Category
+                                    </strong>
+
+                                    <p id="appealModalCategory"></p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- CONTACT -->
+
+                            <div class="col-6">
+
+                                <div class="info-item">
+
+                                    <strong>
+                                        Contact Number
+                                    </strong>
+
+                                    <p id="appealModalContact"></p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BARANGAY -->
+
+                            <div class="col-6">
+
+                                <div class="info-item">
+
+                                    <strong>
+                                        Barangay
+                                    </strong>
+
+                                    <p id="appealModalBarangay"></p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+
+                            <div class="col-12">
+
+                                <div class="info-item">
+
+                                    <strong>
+                                        Email Address
+                                    </strong>
+
+                                    <p id="appealModalEmail"></p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ==================================
+                         RIGHT
+                    ================================== -->
+
+                    <div class="col-lg-8">
+
+
+                        <!-- COMPLAINT DESCRIPTION -->
+
+                        <h5 class="section-title">
+
+                            Complaint Description
+
+                        </h5>
+
+
+                        <div
+                            id="appealModalDescription"
+                            class="complaint-description">
+                        </div>
+
+
+                        <!-- COMPLAINT PHOTOS -->
+
+                        <hr>
+
+                        <h5 class="section-title">
+
+                            Complaint Photos
+
+                        </h5>
+
+
+                        <div
+                            id="appealPhotoCarousel"
+                            class="carousel slide"
+                            data-bs-ride="carousel"
+                        >
+
+                            <div
+                                class="carousel-inner"
+                                id="appealModalPhotos">
+                            </div>
+
+
+                            <button
+                                class="carousel-control-prev"
+                                type="button"
+                                data-bs-target="#appealPhotoCarousel"
+                                data-bs-slide="prev"
+                            >
+
+                                <span
+                                    class="carousel-control-prev-icon">
+                                </span>
+
+                            </button>
+
+
+                            <button
+                                class="carousel-control-next"
+                                type="button"
+                                data-bs-target="#appealPhotoCarousel"
+                                data-bs-slide="next"
+                            >
+
+                                <span
+                                    class="carousel-control-next-icon">
+                                </span>
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- ==================================
+                             APPEAL INFORMATION
+                        ================================== -->
+
+                        <hr>
+
+                        <h5 class="section-title">
+
+                            Appeal Details
+
+                        </h5>
+
+
+                        <div class="mb-3">
+
+                            <strong>
+                                Appeal Submitted
+                            </strong>
+
+                            <p
+                                id="appealSubmittedAt"
+                                class="text-muted mb-2">
+                            </p>
+
+                        </div>
+
+
+                        <div class="mb-3">
+
+                            <strong>
+                                Resident's Appeal Reason
+                            </strong>
+
+                            <div
+                                id="appealReason"
+                                class="border rounded p-3 bg-light"
+                                style="white-space: pre-wrap;">
+                            </div>
+
+                        </div>
+
+
+                        <!-- ==================================
+                             SECRETARY REMARKS
+                        ================================== -->
+
+                        <hr>
+
+                        <h5 class="section-title">
+
+                            Secretary Remarks
+
+                        </h5>
+
+
+                        <textarea
+                            id="appealRemarksInput"
+                            class="form-control"
+                            rows="5"
+                            placeholder="Enter remarks before approving or rejecting the appeal...">
+                        </textarea>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ==================================
+                 FOOTER
+            ================================== -->
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    id="rejectAppealBtn"
+                >
+
+                    <i class="bi bi-x-circle"></i>
+
+                    Reject Appeal
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    id="approveAppealBtn"
+                >
+
+                    <i class="bi bi-check-circle"></i>
+
+                    Approve Appeal
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -3586,13 +3913,20 @@ function updateCounters(){
 
 const complaintModal =
 new bootstrap.Modal(document.getElementById("complaintModal"));
+const appealReviewModal =
+new bootstrap.Modal(
+    document.getElementById("appealReviewModal")
+);
 
+let currentAppealID = null;
+let currentAppealComplaintID = null;
 const forwardConfirmModal =
 new bootstrap.Modal(document.getElementById("forwardConfirmModal"));
 
-const returnModal =
-new bootstrap.Modal(document.getElementById("returnModal"));
-
+const returnConfirmModal =
+new bootstrap.Modal(
+    document.getElementById("returnConfirmModal")
+);
 const noticeModal =
 new bootstrap.Modal(document.getElementById("noticeModal"));
 let currentComplaintID = null;
@@ -3732,43 +4066,28 @@ document.getElementById("forwardBtn")
 .addEventListener("click",()=>{
 
     if(!currentRow) return;
-
-    const status =
+const status =
     currentRow.cells[6].textContent.trim();
 
-    if(status==="Forwarded"){
+if (status.includes("Forwarded to MENRO")) {
 
-        document.getElementById("noticeText").textContent =
+    document.getElementById("noticeText").textContent =
         "This complaint has already been forwarded to MENRO.";
 
-        noticeModal.show();
+    noticeModal.show();
 
-        return;
+    return;
+}
 
-    }
+if (status.includes("Returned to Resident")) {
 
-    if(status==="Returned"){
+    document.getElementById("noticeText").textContent =
+        "This complaint has already been returned to the resident.";
 
-        document.getElementById("noticeText").textContent =
-        "This complaint has already been returned.";
+    noticeModal.show();
 
-        noticeModal.show();
-
-        return;
-
-    }
-
-    if(status==="Resolved"){
-
-        document.getElementById("noticeText").textContent =
-        "This complaint has already been resolved.";
-
-        noticeModal.show();
-
-        return;
-
-    }
-
+    return;
+}
   const remarks =
 document.getElementById("remarksInput").value.trim();
 
@@ -3794,371 +4113,269 @@ if(remarks===""){
 document.body.classList.add("second-modal-open");
 forwardConfirmModal.show();
 });
-
 document.getElementById("confirmForwardBtn")
-.addEventListener("click",()=>{
+.addEventListener("click", () => {
 
+    if (!currentComplaintID) {
 
-    const complaintID = currentRow
-        .querySelector(".reviewComplaint, .continueReview, .viewComplaint")
-        ?.dataset.id;
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Complaint ID could not be found."
+        });
 
+        return;
+    }
+
+    const complaintID = currentComplaintID;
 
     const remarks =
-    document.getElementById("remarksInput")
-    .value.trim();
+        document.getElementById("remarksInput").value.trim();
 
+    if (remarks === "") {
 
+        Swal.fire({
+            icon: "warning",
+            title: "Remarks Required",
+            text: "Please enter secretary remarks before forwarding the complaint.",
+            confirmButtonText: "OK"
+        });
+
+        return;
+    }
 
     const formData = new FormData();
 
     formData.append("id", complaintID);
     formData.append("remarks", remarks);
 
-
-
-    fetch("barangay-secretary-forward-complaint.php",{
-
-        method:"POST",
-
-        body:formData
-
+    fetch("barangay-secretary-forward-menro.php", {
+        method: "POST",
+        body: formData
     })
 
-    .then(response=>response.json())
+    .then(response => response.json())
 
-    .then(data=>{
+    .then(data => {
 
+        if (!data.success) {
 
-        if(data.success){
+            Swal.fire({
+                icon: "warning",
+                title: "Cannot Forward",
+                text: data.message || "Complaint cannot be forwarded."
+            });
 
-
-          const complaintID = currentRow.dataset.id;
-
-const remarks =
-document.getElementById("remarksInput").value.trim();
-
-
-const formData = new FormData();
-
-formData.append("id", complaintID);
-
-formData.append("remarks", remarks);
-
-
-
-fetch("barangay-secretary-forward-menro.php",{
-    method:"POST",
-    body:formData
-})
-.then(response=>response.json())
-.then(data=>{
-
-    if(data.success){
+            return;
+        }
 
         forwardConfirmModal.hide();
+
         document.body.classList.remove("second-modal-open");
+
         complaintModal.hide();
 
         Swal.fire({
-            icon:"success",
-            title:"Forwarded to MENRO",
-            text:data.message,
-            timer:3000,
-            showConfirmButton:true
+            icon: "success",
+            title: "Complaint Forwarded",
+            text: data.message || "The complaint has been forwarded to MENRO.",
+            timer: 2500,
+            showConfirmButton: true
+        })
+        .then(() => {
+
+            liveSearch(false);
+
         });
-
-        refreshComplaintTable();
-
-    }else{
-
-        Swal.fire({
-            icon:"warning",
-            title:"Cannot Forward",
-            text:data.message
-        });
-
-    }
-
-
-});
-
-
-
-            Swal.fire({
-
-                icon:"success",
-
-                title:"Complaint Forwarded",
-
-                text:
-                "The complaint has been forwarded to MENRO.",
-
-                timer:3000,
-
-                showConfirmButton:true
-
-            })
-            .then(()=>{
-
-                liveSearch(false);
-
-            });
-
-
-
-        }else{
-
-
-            Swal.fire({
-
-                icon:"warning",
-
-                title:"Cannot Forward",
-
-                text:
-                "Complaint is no longer available for forwarding."
-
-            });
-
-
-        }
-
 
     })
 
+    .catch(error => {
 
-    .catch(()=>{
-
+        console.error(error);
 
         Swal.fire({
-
-            icon:"error",
-
-            title:"Error",
-
-            text:
-            "Unable to forward complaint."
-
+            icon: "error",
+            title: "Error",
+            text: "Unable to forward complaint."
         });
-
 
     });
 
 });
-
 document.getElementById("returnBtn")
-.addEventListener("click",()=>{
+.addEventListener("click", () => {
 
-    if(!currentRow) return;
+    if (!currentRow) return;
 
     const status =
-    currentRow.cells[6].textContent.trim();
+        currentRow.cells[6].textContent.trim();
 
-    if(status==="Forwarded"){
+    if (status.includes("Forwarded")) {
 
         document.getElementById("noticeText").textContent =
-        "This complaint has already been forwarded to MENRO.";
+            "This complaint has already been forwarded to MENRO.";
 
         noticeModal.show();
 
         return;
-
     }
 
-    if(status==="Returned"){
+    if (status.includes("Returned")) {
 
         document.getElementById("noticeText").textContent =
-        "This complaint has already been returned.";
+            "This complaint has already been returned to the resident.";
 
         noticeModal.show();
 
         return;
-
     }
 
-    if(status==="Resolved"){
+    if (status.includes("Resolved")) {
 
         document.getElementById("noticeText").textContent =
-        "This complaint has already been resolved.";
+            "This complaint has already been resolved.";
 
         noticeModal.show();
 
         return;
-
     }
 
-    document.getElementById("returnReasonInput").value="";
 
-const remarks =
-document.getElementById("remarksInput").value.trim();
-
-if(remarks===""){
-
-    Swal.fire({
-
-        icon:"warning",
-        title:"Remarks Required",
-        text:"Please enter secretary remarks before returning the complaint.",
-
-        timer:3000,
-
-        showConfirmButton:true,
-        confirmButtonText:"OK"
-
-    });
-
-    return;
-
-}
-
-document.body.classList.add("second-modal-open");
-returnModal.show();
-});
-document.getElementById("confirmReturnBtn")
-.addEventListener("click",()=>{
-
-
-    const complaintID = currentRow
-        .querySelector(".reviewComplaint, .continueReview, .viewComplaint")
-        ?.dataset.id;
-
-
-    const reason =
-    document.getElementById("returnReasonInput")
-    .value.trim();
-
+    /* ======================================
+       CHECK SECRETARY REMARKS
+    ====================================== */
 
     const remarks =
-    document.getElementById("remarksInput")
-    .value.trim();
+        document.getElementById("remarksInput").value.trim();
 
-
-
-    if(reason === ""){
-
+    if (remarks === "") {
 
         Swal.fire({
 
-            icon:"warning",
+            icon: "warning",
+            title: "Remarks Required",
+            text: "Please enter secretary remarks before returning the complaint.",
 
-            title:"Reason Required",
-
-            text:
-            "Please enter a reason before returning this complaint.",
-
-            timer:3000,
-
-            showConfirmButton:true
+            timer: 3000,
+            showConfirmButton: true,
+            confirmButtonText: "OK"
 
         });
 
-
         return;
-
     }
 
 
+    /* ======================================
+       OPEN RETURN CONFIRMATION
+    ====================================== */
+
+    document.body.classList.add("second-modal-open");
+
+    returnConfirmModal.show();
+
+});
+
+
+document.getElementById("confirmReturnBtn")
+.addEventListener("click", () => {
+
+    if (!currentRow) return;
+
+    const actionButton =
+        currentRow.querySelector(
+            ".reviewComplaint, .continueReview, .viewComplaint"
+        );
+
+    const complaintID =
+        actionButton?.dataset.id || currentComplaintID;
+
+    if (!complaintID) {
+
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Complaint ID could not be found."
+        });
+
+        return;
+    }
+
+    const remarks =
+        document.getElementById("remarksInput")
+        .value.trim();
+
+    if (remarks === "") {
+
+        Swal.fire({
+            icon: "warning",
+            title: "Remarks Required",
+            text: "Please enter secretary remarks before returning the complaint.",
+            confirmButtonText: "OK"
+        });
+
+        return;
+    }
 
     const formData = new FormData();
 
-
     formData.append("id", complaintID);
-
     formData.append("remarks", remarks);
 
-    formData.append("reason", reason);
-
-
-
-    fetch(
-        "barangay-secretary-return-complaint.php",
-        {
-            method:"POST",
-            body:formData
-        }
-    )
-
-
-    .then(response=>response.json())
-
-
-    .then(data=>{
-
-
-        if(data.success){
-
-
-            returnModal.hide();
-
-            document.body.classList.remove(
-                "second-modal-open"
-            );
-
-
-            complaintModal.hide();
-
-
-            Swal.fire({
-
-                icon:"success",
-
-                title:"Complaint Returned",
-
-                text:
-                "The complaint has been returned to the resident.",
-
-                timer:3000,
-
-                showConfirmButton:true
-
-            })
-            .then(()=>{
-
-                liveSearch(false);
-
-            });
-
-
-        }else{
-
-
-            Swal.fire({
-
-                icon:"warning",
-
-                title:"Cannot Return",
-
-                text:
-                data.message ||
-                "Complaint cannot be returned."
-
-            });
-
-
-        }
-
-
+    fetch("barangay-secretary-return-complaint.php", {
+        method: "POST",
+        body: formData
     })
 
+    .then(response => response.json())
 
-    .catch(()=>{
+    .then(data => {
 
+        if (!data.success) {
+
+            Swal.fire({
+                icon: "warning",
+                title: "Cannot Return",
+                text: data.message || "Complaint cannot be returned."
+            });
+
+            return;
+        }
+
+        returnConfirmModal.hide();
+
+        document.body.classList.remove("second-modal-open");
+
+        complaintModal.hide();
 
         Swal.fire({
+            icon: "success",
+            title: "Complaint Returned",
+            text: data.message || "The complaint has been returned to the resident.",
+            timer: 2500,
+            showConfirmButton: true
+        })
 
-            icon:"error",
+        .then(() => {
 
-            title:"Error",
-
-            text:
-            "Unable to return complaint."
+            liveSearch(false);
 
         });
 
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Unable to return complaint."
+        });
 
     });
-
 
 });
 document.querySelectorAll("textarea").forEach(textarea => {
@@ -4241,68 +4458,66 @@ document.getElementById("forwardConfirmModal")
     document.body.classList.remove("second-modal-open");
 });
 
-document.getElementById("returnModal")
+document.getElementById("returnConfirmModal")
 .addEventListener("hidden.bs.modal", function () {
-    document.body.classList.remove("second-modal-open");
-});
 
+    document.body.classList.remove(
+        "second-modal-open"
+    );
+
+});
 
 const searchInput = document.getElementById("searchInput");
 
 const statusFilter = document.getElementById("statusFilter");
 
+
 function submitFilter(){
 
-    const params = new URLSearchParams(window.location.search);
-
+    const params =
+        new URLSearchParams(window.location.search);
 
     // SEARCH
     if(searchInput.value.trim() !== ""){
-        params.set("search", searchInput.value.trim());
+
+        params.set(
+            "search",
+            searchInput.value.trim()
+        );
+
     }else{
+
         params.delete("search");
+
     }
 
-
-   function submitFilter(){
-
-    const params = new URLSearchParams(window.location.search);
-
-    if(searchInput.value.trim() !== ""){
-        params.set("search", searchInput.value.trim());
-    }else{
-        params.delete("search");
-    }
-
-    if(statusFilter.value !== "All Status"){
-        params.set("status", statusFilter.value);
-    }else{
-        params.delete("status");
-    }
-
-    params.set("page",1);
-
-    window.location.href =
-    "barangay-secretary-complaints.php?" + params.toString();
-
-}
 
     // STATUS
     if(statusFilter.value !== "All Status"){
-        params.set("status", statusFilter.value);
+
+        params.set(
+            "status",
+            statusFilter.value
+        );
+
     }else{
+
         params.delete("status");
+
     }
 
 
     // balik sa page 1 kapag nag-filter
-    params.set("page",1);
+    params.set("page", 1);
 
 
     window.location.href =
-    "barangay-secretary-complaints.php?" + params.toString();
+        "barangay-secretary-complaints.php?" +
+        params.toString();
 
 }
+
+
 function liveSearch(resetPage = true){
 
     if(resetPage){
@@ -4338,17 +4553,508 @@ function liveSearch(resetPage = true){
 
         document.getElementById("complaintsTable").innerHTML = data;
 
-        attachViewButtons();
-        attachContinueReviewButtons();
+    attachViewButtons();
+attachContinueReviewButtons();
+attachAppealReviewButtons();
+
+    });
+
+}
+
+// ======================================
+// APPEAL REVIEW BUTTONS
+// ======================================
+
+function attachAppealReviewButtons(){
+
+    document.querySelectorAll(".reviewAppeal").forEach(btn => {
+
+        btn.onclick = function(){
+
+            const complaintID =
+                this.dataset.id;
+
+            const appealID =
+                this.dataset.appealId;
+
+            loadAppealForReview(
+                complaintID,
+                appealID
+            );
+
+        };
 
     });
 
 
+    document.querySelectorAll(".continueAppealReview").forEach(btn => {
 
+        btn.onclick = function(){
+
+            const complaintID =
+                this.dataset.id;
+
+            const appealID =
+                this.dataset.appealId;
+
+            loadAppealForReview(
+                complaintID,
+                appealID
+            );
+
+        };
+
+    });
+
+}
+
+attachAppealReviewButtons();
 
 // ======================================
-// CONTINUE REVIEW BUTTON
+// LOAD APPEAL FOR REVIEW
 // ======================================
+
+function loadAppealForReview(complaintID, appealID) {
+
+    let appeal = null;
+
+    fetch("barangay-secretary-get-appeals.php")
+    .then(response => response.json())
+
+    .then(data => {
+
+        if (!data.success) {
+
+            Swal.fire(
+                "Error",
+                data.message || "Unable to load appeal.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // ======================================
+        // FIND APPEAL
+        // ======================================
+
+ appeal = data.appeals.find(
+    item =>
+        Number(item.id) === Number(appealID)
+);
+
+if (!appeal) {
+
+    Swal.fire(
+        "Error",
+        "Appeal not found.",
+        "error"
+    );
+
+    return;
+}
+
+appealStatus =
+    (appeal.status || "").trim();
+
+console.log(
+    "APPEAL STATUS:",
+    appealStatus
+);
+
+
+        // ======================================
+        // SAVE APPEAL IDS
+        // ======================================
+
+    currentAppealID =
+    appeal.id;
+
+currentAppealComplaintID =
+    appeal.complaint_id;
+
+window.currentAppealReason =
+    appeal.appeal_reason || "N/A";
+
+window.currentAppealSubmittedAt =
+    appeal.submitted_at || "N/A";
+        console.log(
+            "APPEAL ID:",
+            currentAppealID
+        );
+
+        console.log(
+            "COMPLAINT ID:",
+            currentAppealComplaintID
+        );
+
+
+        // ======================================
+        // NOW LOAD ORIGINAL COMPLAINT
+        // ======================================
+
+        return fetch(
+            "barangay-secretary-get-complaint.php?id=" +
+            encodeURIComponent(
+                currentAppealComplaintID
+            )
+        );
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if (!data.success) {
+
+            Swal.fire(
+                "Error",
+                data.message ||
+                "Unable to load complaint details.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const complaint =
+            data.complaint;
+
+
+        console.log(
+            "APPEAL COMPLAINT:",
+            complaint
+        );
+
+
+        // ======================================
+        // COMPLAINT DETAILS
+        // ======================================
+
+        document.getElementById(
+            "appealModalID"
+        ).textContent =
+            complaint.ticket_no || "N/A";
+
+
+        document.getElementById(
+            "appealModalName"
+        ).textContent =
+            (
+                (complaint.first_name || "") +
+                " " +
+                (complaint.last_name || "")
+            ).trim() || "N/A";
+
+
+        document.getElementById(
+            "appealModalCategory"
+        ).textContent =
+            complaint.category || "N/A";
+
+
+        document.getElementById(
+            "appealModalBarangay"
+        ).textContent =
+            complaint.complaint_location || "N/A";
+
+
+        document.getElementById(
+            "appealModalEmail"
+        ).textContent =
+            complaint.email || "No Email";
+
+
+        document.getElementById(
+            "appealModalContact"
+        ).textContent =
+            complaint.phone || "No Contact";
+
+
+        // ======================================
+        // ORIGINAL COMPLAINT DATE
+        // ======================================
+
+        document.getElementById(
+            "appealModalDate"
+        ).textContent =
+            complaint.submitted_at || "N/A";
+
+
+        // ======================================
+        // DESCRIPTION
+        // ======================================
+
+        document.getElementById(
+            "appealModalDescription"
+        ).textContent =
+            complaint.description ||
+            "No Description";
+
+
+        // ======================================
+        // PHOTOS
+        // ======================================
+
+        const photoContainer =
+            document.getElementById(
+                "appealModalPhotos"
+            );
+
+        photoContainer.innerHTML = "";
+
+
+        if (
+            complaint.photos &&
+            complaint.photos.length > 0
+        ) {
+
+            complaint.photos.forEach(
+                (photo, index) => {
+
+                    photoContainer.innerHTML += `
+
+                        <div
+                            class="carousel-item ${
+                                index === 0
+                                    ? "active"
+                                    : ""
+                            }"
+                        >
+
+                            <img
+                                src="${photo}"
+                                class="d-block w-100 complaint-photo"
+                                style="
+                                    height:300px;
+                                    object-fit:cover;
+                                    cursor:pointer;
+                                "
+                                onclick="openImageViewer('${photo}')"
+                            >
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+        } else {
+
+            photoContainer.innerHTML = `
+
+                <div class="text-muted p-3">
+
+                    No photos uploaded.
+
+                </div>
+
+            `;
+
+        }
+
+
+        // ======================================
+        // AVATAR
+        // ======================================
+
+        const fullName =
+            (
+                (complaint.first_name || "") +
+                " " +
+                (complaint.last_name || "")
+            ).trim();
+
+
+        document.getElementById(
+            "appealModalAvatar"
+        ).src =
+            `https://ui-avatars.com/api/?name=${
+                encodeURIComponent(fullName)
+            }&background=2e7d32&color=fff&size=180`;
+
+// ======================================
+// APPEAL STATUS
+// ======================================
+
+const modalBadge =
+    document.getElementById("appealModalStatus");
+
+const appealStatus =
+    (appeal.status || "").trim();
+
+modalBadge.className = "badge";
+
+modalBadge.textContent =
+    appealStatus || "Unknown";
+
+if (appealStatus === "Pending") {
+
+    modalBadge.classList.add(
+        "bg-warning",
+        "text-dark"
+    );
+
+}
+
+else if (appealStatus === "Under Review") {
+
+    modalBadge.classList.add(
+        "bg-primary"
+    );
+
+}
+
+else if (appealStatus === "Approved") {
+
+    modalBadge.classList.add(
+        "bg-success"
+    );
+
+}
+
+else if (appealStatus === "Rejected") {
+
+    modalBadge.classList.add(
+        "bg-danger"
+    );
+
+}
+
+else {
+
+    modalBadge.classList.add(
+        "bg-secondary"
+    );
+
+}
+        // ======================================
+        // APPEAL REASON
+        // ======================================
+
+        document.getElementById(
+            "appealReason"
+        ).textContent =
+            window.currentAppealReason ||
+            "N/A";
+
+
+        // ======================================
+        // APPEAL SUBMITTED DATE
+        // ======================================
+
+   document.getElementById(
+    "appealSubmittedAt"
+).textContent =
+    formatAppealDate(
+        window.currentAppealSubmittedAt
+    );
+        // ======================================
+        // RESET SECRETARY REMARKS
+        // ======================================
+
+        document.getElementById(
+            "appealRemarksInput"
+        ).value = "";
+
+// ======================================
+// APPEAL VIEW ONLY
+// ======================================
+
+const approveAppealBtn =
+    document.getElementById("approveAppealBtn");
+
+const rejectAppealBtn =
+    document.getElementById("rejectAppealBtn");
+
+const appealRemarksInput =
+    document.getElementById("appealRemarksInput");
+
+// ======================================
+// APPEAL VIEW / EDIT MODE
+// ======================================
+
+const isAppealFinal =
+    appealStatus === "Approved" ||
+    appealStatus === "Rejected";
+
+const isAppealReviewable =
+    appealStatus === "Pending" ||
+    appealStatus === "Under Review";
+
+if (isAppealFinal) {
+
+    // ==============================
+    // FINAL APPEAL = VIEW ONLY
+    // ==============================
+
+    approveAppealBtn.style.display = "none";
+    rejectAppealBtn.style.display = "none";
+
+    appealRemarksInput.value =
+        appeal.secretary_remarks || "";
+
+    appealRemarksInput.readOnly = true;
+
+}
+else if (isAppealReviewable) {
+
+    // ==============================
+    // APPEAL CAN STILL BE REVIEWED
+    // ==============================
+
+    approveAppealBtn.style.display = "";
+    rejectAppealBtn.style.display = "";
+
+    appealRemarksInput.value =
+        appeal.secretary_remarks || "";
+
+    appealRemarksInput.readOnly = false;
+
+}
+else {
+
+    // ==============================
+    // UNKNOWN / OTHER STATUS
+    // VIEW ONLY FOR SAFETY
+    // ==============================
+
+    approveAppealBtn.style.display = "none";
+    rejectAppealBtn.style.display = "none";
+
+    appealRemarksInput.value =
+        appeal.secretary_remarks || "";
+
+    appealRemarksInput.readOnly = true;
+}
+        // ======================================
+        // SHOW MODAL
+        // ======================================
+
+        appealReviewModal.show();
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            "LOAD APPEAL ERROR:",
+            error
+        );
+
+        Swal.fire(
+            "Error",
+            "Unable to load appeal.",
+            "error"
+        );
+
+    });
+
+}
 
 function attachContinueReviewButtons(){
 
@@ -4356,6 +5062,10 @@ function attachContinueReviewButtons(){
     .forEach(btn=>{
 
         btn.onclick=function(){
+
+            // IMPORTANT:
+            // Save the actual complaint row
+            currentRow = this.closest("tr");
 
             const complaintID = this.dataset.id;
 
@@ -4367,10 +5077,9 @@ function attachContinueReviewButtons(){
 
 }
 
-attachContinueReviewButtons();
 
 
-}
+
 
 
 document
@@ -4436,8 +5145,310 @@ document.addEventListener("click", function(e){
 
 })
 });
+// ======================================
+// APPROVE APPEAL
+// ======================================
 
-function loadComplaintForReview(complaintID){
+document.getElementById("approveAppealBtn")
+.addEventListener("click", function () {
+
+    if (!currentAppealID) {
+
+        Swal.fire(
+            "Error",
+            "Appeal ID could not be found.",
+            "error"
+        );
+
+        return;
+    }
+
+    const remarks =
+        document.getElementById("appealRemarksInput")
+        .value.trim();
+
+    if (remarks === "") {
+
+        Swal.fire({
+            icon: "warning",
+            title: "Remarks Required",
+            text: "Please enter secretary remarks before approving the appeal.",
+            confirmButtonText: "OK"
+        });
+
+        return;
+    }
+
+    Swal.fire({
+        icon: "question",
+        title: "Approve Appeal?",
+        text: "This will approve the appeal and approve the complaint.",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Approve",
+        cancelButtonText: "Cancel"
+    })
+    .then(result => {
+
+        if (!result.isConfirmed) {
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append(
+            "appeal_id",
+            currentAppealID
+        );
+
+        formData.append(
+            "remarks",
+            remarks
+        );
+
+        fetch(
+            "barangay-secretary-approve-appeal.php",
+            {
+                method: "POST",
+                body: formData
+            }
+        )
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            if (!data.success) {
+
+                Swal.fire({
+                    icon: "warning",
+                    title: "Cannot Approve",
+                    text:
+                        data.message ||
+                        "Unable to approve appeal."
+                });
+
+                return;
+            }
+
+            appealReviewModal.hide();
+
+            Swal.fire({
+                icon: "success",
+                title: "Appeal Approved",
+                text:
+                    data.message ||
+             "The appeal has been approved and the complaint is now approved.",
+                timer: 2500,
+                showConfirmButton: true
+            })
+            .then(() => {
+
+                currentAppealID = null;
+                currentAppealComplaintID = null;
+
+                liveSearch(false);
+
+            });
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "APPROVE APPEAL ERROR:",
+                error
+            );
+
+            Swal.fire(
+                "Error",
+                "Unable to approve appeal.",
+                "error"
+            );
+
+        });
+
+    });
+
+});
+// ======================================
+// REJECT APPEAL
+// ======================================
+
+document.getElementById("rejectAppealBtn")
+.addEventListener("click", function () {
+
+    if (!currentAppealID) {
+
+        Swal.fire(
+            "Error",
+            "Appeal ID could not be found.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const remarks =
+        document.getElementById(
+            "appealRemarksInput"
+        ).value.trim();
+
+
+    if (remarks === "") {
+
+        Swal.fire({
+            icon: "warning",
+            title: "Remarks Required",
+            text:
+                "Please enter secretary remarks before rejecting the appeal.",
+            confirmButtonText: "OK"
+        });
+
+        return;
+    }
+
+
+    Swal.fire({
+        icon: "warning",
+        title: "Reject Appeal?",
+        text: "This appeal will be rejected and the complaint will remain rejected.",
+        showCancelButton: true,
+        confirmButtonText: "Yes, Reject",
+        cancelButtonText: "Cancel"
+    })
+    .then(result => {
+
+        if (!result.isConfirmed) {
+            return;
+        }
+
+
+        const formData = new FormData();
+
+        formData.append(
+            "appeal_id",
+            currentAppealID
+        );
+
+        formData.append(
+            "remarks",
+            remarks
+        );
+
+
+        fetch(
+            "barangay-secretary-reject-appeal.php",
+            {
+                method: "POST",
+                body: formData
+            }
+        )
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            if (!data.success) {
+
+                Swal.fire({
+                    icon: "warning",
+                    title: "Cannot Reject",
+                    text:
+                        data.message ||
+                        "Unable to reject appeal."
+                });
+
+                return;
+            }
+
+
+            appealReviewModal.hide();
+
+
+            Swal.fire({
+                icon: "success",
+                title: "Appeal Rejected",
+                text:
+                    data.message ||
+                    "The appeal has been rejected.",
+                timer: 2500,
+                showConfirmButton: true
+            })
+            .then(() => {
+
+                currentAppealID = null;
+                currentAppealComplaintID = null;
+
+                liveSearch(false);
+
+            });
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "REJECT APPEAL ERROR:",
+                error
+            );
+
+            Swal.fire(
+                "Error",
+                "Unable to reject appeal.",
+                "error"
+            );
+
+        });
+
+    });
+
+});
+function updateComplaintActionButtons(complaint) {
+
+    const forwardBtn =
+        document.getElementById("forwardBtn");
+
+    const returnBtn =
+        document.getElementById("returnBtn");
+
+    const validationStatus =
+        (complaint.validation_status || "").trim();
+
+    const actionStatus =
+        (complaint.action_status || "").trim();
+
+    // Always reset first
+    forwardBtn.style.display = "";
+    returnBtn.style.display = "";
+
+    /*
+     * Secretary can only act while complaint
+     * is Under Review.
+     */
+    if (validationStatus !== "Under Review") {
+
+        forwardBtn.style.display = "none";
+        returnBtn.style.display = "none";
+
+        return;
+    }
+
+    /*
+     * Extra protection for complaints that
+     * are already being processed by MENRO.
+     */
+    if (
+        actionStatus === "Assigned" ||
+        actionStatus === "In Progress" ||
+        actionStatus === "Resolved"
+    ) {
+
+        forwardBtn.style.display = "none";
+        returnBtn.style.display = "none";
+    }
+}
+function loadComplaintForReview(complaintID) {
 
     fetch("barangay-secretary-get-complaint.php?id=" + complaintID)
 
@@ -4447,10 +5458,25 @@ function loadComplaintForReview(complaintID){
 
         console.log("RAW RESPONSE:", text);
 
-        const data = JSON.parse(text);
+        let data;
+
+        try {
+            data = JSON.parse(text);
+        } catch (error) {
+
+            console.error("JSON PARSE ERROR:", error);
+
+            Swal.fire(
+                "Error",
+                "Invalid server response.",
+                "error"
+            );
+
+            return;
+        }
 
 
-        if(!data.success){
+        if (!data.success) {
 
             Swal.fire(
                 "Error",
@@ -4459,160 +5485,308 @@ function loadComplaintForReview(complaintID){
             );
 
             return;
-
         }
 
 
         const complaint = data.complaint;
 
 
+        // ======================================
+        // SAVE CURRENT COMPLAINT ID
+        // ======================================
 
-        // FILL EXISTING COMPLAINT MODAL
+        currentComplaintID = complaint.id || complaintID;
+
+        console.log(
+            "CURRENT COMPLAINT ID:",
+            currentComplaintID
+        );
+
+
+        // ======================================
+        // UPDATE ACTION BUTTONS
+        // ======================================
+
+        updateComplaintActionButtons(complaint);
+
+
+        // ======================================
+        // COMPLAINT DETAILS
+        // ======================================
 
         document.getElementById("modalID").textContent =
-        complaint.ticket_no;
+            complaint.ticket_no || "N/A";
 
 
         document.getElementById("modalName").textContent =
-        complaint.first_name + " " + complaint.last_name;
-
+            (complaint.first_name || "") +
+            " " +
+            (complaint.last_name || "");
 
 
         document.getElementById("modalCategory").textContent =
-        complaint.category;
-
+            complaint.category || "N/A";
 
 
         document.getElementById("modalBarangay").textContent =
-        complaint.complaint_location;
+            complaint.complaint_location || "N/A";
 
 
+        // ======================================
+        // DATE
+        // ======================================
 
-document.getElementById("modalDate").textContent =
-new Date(complaint.submitted_at)
-.toLocaleDateString(
-"en-US",
-{
-month:"long",
-day:"numeric",
-year:"numeric"
-}
-);
+       // ======================================
+// DATE
+// ======================================
 
-document.getElementById("modalEmail").textContent =
-complaint.email || "No Email";
+const modalDate =
+    document.getElementById("modalDate");
 
+if (complaint.submitted_at) {
 
-document.getElementById("modalContact").textContent =
-complaint.phone || "No Contact";
+    modalDate.textContent =
+        complaint.submitted_at;
 
-     document.getElementById("modalDescription").textContent =
-complaint.description || "No Description";
-const photoContainer =
-document.getElementById("modalPhotos");
+} else {
 
-
-photoContainer.innerHTML = "";
-
-
-if(
-    complaint.photos &&
-    complaint.photos.length > 0
-){
-
-
-    complaint.photos.forEach((photo,index)=>{
-
-
-        photoContainer.innerHTML += `
-
-        <div class="carousel-item ${index===0?'active':''}">
-
-            <img
-            src="${photo}"
-            class="d-block w-100 complaint-photo"
-            style="
-            height:300px;
-            object-fit:cover;
-            cursor:pointer;
-            "
-          onclick="openImageViewer('${photo}')"
-
-        </div>
-
-        `;
-
-
-    });
-
-
-
-}else{
-
-
-    photoContainer.innerHTML = `
-
-    <div class="text-muted p-3">
-        No photos uploaded.
-    </div>
-
-    `;
-
+    modalDate.textContent =
+        "N/A";
 
 }
+
+        // ======================================
+        // CONTACT INFORMATION
+        // ======================================
+
+        document.getElementById("modalEmail").textContent =
+            complaint.email || "No Email";
+
+
+        document.getElementById("modalContact").textContent =
+            complaint.phone || "No Contact";
+
+
+        // ======================================
+        // DESCRIPTION
+        // ======================================
+
+        document.getElementById("modalDescription").textContent =
+            complaint.description || "No Description";
+
+
+        // ======================================
+        // PHOTOS
+        // ======================================
+
+        const photoContainer =
+            document.getElementById("modalPhotos");
+
+        photoContainer.innerHTML = "";
+
+
+        if (
+            complaint.photos &&
+            complaint.photos.length > 0
+        ) {
+
+            complaint.photos.forEach((photo, index) => {
+
+                photoContainer.innerHTML += `
+
+                    <div class="carousel-item ${index === 0 ? "active" : ""}">
+
+                        <img
+                            src="${photo}"
+                            class="d-block w-100 complaint-photo"
+                            style="
+                                height:300px;
+                                object-fit:cover;
+                                cursor:pointer;
+                            "
+                            onclick="openImageViewer('${photo}')"
+                        >
+
+                    </div>
+
+                `;
+
+            });
+
+        } else {
+
+            photoContainer.innerHTML = `
+
+                <div class="text-muted p-3">
+                    No photos uploaded.
+                </div>
+
+            `;
+
+        }
+
+
+        // ======================================
+        // SECRETARY REMARKS
+        // ======================================
 
         document.getElementById("remarksInput").value =
-        complaint.remarks || "";
+            complaint.remarks || "";
 
 
+        // ======================================
+        // AVATAR
+        // ======================================
 
         const avatar =
-        complaint.first_name + " " + complaint.last_name;
-
+            (complaint.first_name || "") +
+            " " +
+            (complaint.last_name || "");
 
 
         document.getElementById("modalAvatar").src =
-
-        `https://ui-avatars.com/api/?name=${encodeURIComponent(avatar)}&background=2e7d32&color=fff&size=180`;
-
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(avatar)}&background=2e7d32&color=fff&size=180`;
 
 
-        // STATUS BADGE
+        // ======================================
+        // VALIDATION STATUS
+        // ======================================
 
-     // STATUS BADGE
-
-const modalBadge =
-document.getElementById("modalStatus");
-
-
-modalBadge.textContent =
-complaint.validation_status;
+        const modalBadge =
+            document.getElementById("modalStatus");
 
 
-if(complaint.validation_status=="Under Review"){
-
-    modalBadge.className =
-    "badge bg-primary";
-
-}
+        const validationStatus =
+            (complaint.validation_status || "").trim();
 
 
-complaintModal.show();
+        console.log(
+            "VALIDATION STATUS:",
+            validationStatus
+        );
+
+
+        // Always reset the badge first
+        modalBadge.className = "badge";
+
+
+        // Always show the status text
+        modalBadge.textContent =
+            validationStatus || "Unknown";
+
+
+        // ======================================
+        // STATUS COLORS
+        // ======================================
+
+        if (validationStatus === "Waiting") {
+
+            modalBadge.classList.add(
+                "bg-warning",
+                "text-dark"
+            );
+
+        }
+
+        else if (validationStatus === "Under Review") {
+
+            modalBadge.classList.add(
+                "bg-primary"
+            );
+
+        }
+
+        else if (validationStatus === "Approved") {
+
+            modalBadge.classList.add(
+                "bg-success"
+            );
+
+        }
+
+        else if (validationStatus === "Rejected") {
+
+            modalBadge.classList.add(
+                "bg-danger"
+            );
+
+        }
+
+        else {
+
+            modalBadge.classList.add(
+                "bg-secondary"
+            );
+
+        }
+
+
+        // ======================================
+        // SHOW MODAL
+        // ======================================
+
+        complaintModal.show();
+
     })
 
 
-   .catch(error=>{
+    .catch(error => {
 
-    console.error(error);
+        console.error(
+            "LOAD COMPLAINT ERROR:",
+            error
+        );
 
-    Swal.fire(
-        "Error",
-        "Unable to load complaint. Check console.",
-        "error"
+        Swal.fire(
+            "Error",
+            "Unable to load complaint. Check console.",
+            "error"
+        );
+
+    });
+
+}
+function formatAppealDate(dateString) {
+
+    if (!dateString) {
+        return "N/A";
+    }
+
+    const parts =
+        dateString.split(/[- :]/);
+
+    if (parts.length < 5) {
+        return dateString;
+    }
+
+    const date = new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        Number(parts[2]),
+        Number(parts[3]),
+        Number(parts[4])
     );
 
-});
+    if (isNaN(date.getTime())) {
+        return dateString;
+    }
 
+    return date.toLocaleDateString(
+        "en-US",
+        {
+            month: "long",
+            day: "numeric",
+            year: "numeric"
+        }
+    ) +
+    " | " +
+    date.toLocaleTimeString(
+        "en-US",
+        {
+            hour: "numeric",
+            minute: "2-digit"
+        }
+    );
 }
 function openImageViewer(src){
 
