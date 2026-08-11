@@ -1,8 +1,9 @@
 <?php
 $host = "localhost";
-$user = "u820562602_fleurscents";
-$pass = "Aa2RmDG?Pe0";
-$db   = "u820562602_fleurscents_db";
+$user = "u823857209_enviromanage";
+$pass = "Enviromanage4322";
+$db   = "u823857209_enviromanage";
+
 
 $conn = new mysqli($host, $user, $pass, $db);
 

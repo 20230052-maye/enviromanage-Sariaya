@@ -4,13 +4,13 @@ date_default_timezone_set('Asia/Manila');
 
 header("Content-Type: application/json");
 
+// DB CONNECTION
 $conn = new mysqli(
     "localhost",
-    "u820562602_fleurscents",
-    "Aa2RmDG?Pe0",
-    "u820562602_fleurscents_db"
+    "u823857209_enviromanage",
+    "Enviromanage4322",
+    "u823857209_enviromanage"
 );
-
 $conn->query("SET time_zone = '+08:00'");
 
 if ($conn->connect_error) {

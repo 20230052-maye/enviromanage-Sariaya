@@ -2,12 +2,13 @@
 session_start();
 header('Content-Type: application/json');
 
-// SAME DB AS YOUR SYSTEM
-$host = "localhost";
-$user = "u820562602_fleurscents";
-$pass = "Aa2RmDG?Pe0";
-$db   = "u820562602_fleurscents_db";
-
+// DB CONNECTION
+$conn = new mysqli(
+    "localhost",
+    "u823857209_enviromanage",
+    "Enviromanage4322",
+    "u823857209_enviromanage"
+);
 $conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {

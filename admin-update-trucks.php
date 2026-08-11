@@ -8,9 +8,11 @@ if(!$input || !isset($input['id'], $input['plate_no'])) {
 }
 
 $host = "localhost";
-$user = "u820562602_fleurscents";
-$pass = "Aa2RmDG?Pe0";
-$db   = "u820562602_fleurscents_db";
+$user = "u823857209_enviromanage";
+$pass = "Enviromanage4322";
+$db   = "u823857209_enviromanage";
+
+
 $conn = new mysqli($host,$user,$pass,$db);
 if($conn->connect_error){
     echo json_encode(['success'=>false,'message'=>'DB connection failed']);

@@ -1,13 +1,13 @@
 <?php
 session_start();
 
+// DB CONNECTION
 $conn = new mysqli(
     "localhost",
-    "u820562602_fleurscents",
-    "Aa2RmDG?Pe0",
-    "u820562602_fleurscents_db"
+    "u823857209_enviromanage",
+    "Enviromanage4322",
+    "u823857209_enviromanage"
 );
-
 $conn->set_charset("utf8mb4");
 
 if ($conn->connect_error) {
