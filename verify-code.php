@@ -78,7 +78,7 @@ body, html { margin:0; padding:0; font-family:'Roboto',sans-serif; height:100%;o
 
 <!-- Desktop -->
 <div class="container-desktop">
-  <div class="left-panel"><img src="assets/logo-512.png"></div>
+  <div class="left-panel"><img src="assets/enviromanage-logo-512.png"></div>
   <div class="right-panel">
     <div class="card-box">
       <h2>Enter Verification Code</h2>
@@ -106,7 +106,7 @@ body, html { margin:0; padding:0; font-family:'Roboto',sans-serif; height:100%;o
 
 <!-- Mobile -->
 <div class="container-mobile">
-  <div class="mobile-logo-bg"><img src="assets/logo-512.png"></div>
+  <div class="mobile-logo-bg"><img src="assets/enviromanage-logo-512.png"></div>
   <div class="mobile-card">
     <h2>Enter Verification Code</h2>
     <form id="verifyMobileForm">

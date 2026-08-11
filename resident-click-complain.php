@@ -1299,6 +1299,13 @@ textarea.form-control{
 .modal-backdrop.appeal-backdrop {
     z-index: 1065;
 }
+/* ==========================================
+   SWEETALERT2 ABOVE APPEAL MODAL
+========================================== */
+
+.swal2-container {
+    z-index: 2000 !important;
+}
 </style>
 
 </head>
@@ -2070,38 +2077,20 @@ Complaint Details
 
             </div>
 
+<!-- FOOTER -->
 
-            <!-- FOOTER -->
+<div class="modal-footer d-flex justify-content-end">
 
-            <div class="modal-footer">
+    <button
+        type="button"
+        class="btn btn-success btn-sm"
+        id="submitAppealBtn"
+        onclick="submitAppeal()">
 
-                <button
-                    type="button"
-                    class="btn btn-secondary btn-sm"
-                    data-bs-dismiss="modal">
+        <i class="bi bi-send me-1"></i>
+        Submit Appeal
 
-                    Cancel
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="btn btn-success btn-sm"
-                    id="submitAppealBtn"
-                    onclick="submitAppeal()">
-
-                    <i class="bi bi-send me-1"></i>
-
-                    Submit Appeal
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
+    </button>
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -2581,11 +2570,29 @@ confirmButtonColor:"#1e5631"
 
 function viewComplaints(){
 
-    fetch("resident-get-complaints.php")
+   fetch("resident-get-complaints.php")
 
-    .then(res => res.json())
+.then(async res => {
 
-    .then(data => {
+    const text = await res.text();
+
+    console.log("resident-get-complaints RESPONSE:", text);
+
+    try {
+        return JSON.parse(text);
+    } catch (error) {
+
+        console.error(
+            "PHP returned invalid JSON:",
+            text
+        );
+
+        throw error;
+    }
+
+})
+
+.then(data => {
 
         let container =
             document.getElementById("complaintsContainer");
@@ -2633,49 +2640,80 @@ function viewComplaints(){
             data.complaints.forEach(item => {
 
 
-                /* =========================
-                   VALIDATION STATUS
-                ========================= */
+              // ==========================================
+// DISPLAY VALIDATION STATUS
+// ==========================================
 
-                let validationClass =
-                    "bg-secondary";
+const originalValidationStatus =
+    item.validation_status;
 
+const appealStatus =
+    item.appeal?.status || null;
 
-                if(
-                    item.validation_status ===
-                    "Waiting"
-                ){
+let displayValidationStatus =
+    originalValidationStatus;
 
-                    validationClass =
-                        "bg-secondary";
-
-                }else if(
-                    item.validation_status ===
-                    "Under Review"
-                ){
-
-                    validationClass =
-                        "bg-primary";
-
-                }else if(
-                    item.validation_status ===
-                    "Approved"
-                ){
-
-                    validationClass =
-                        "bg-success";
-
-                }else if(
-                    item.validation_status ===
-                    "Rejected"
-                ){
-
-                    validationClass =
-                        "bg-danger";
-
-                }
+let displayActionStatus =
+    item.action_status || "Pending Assignment";
 
 
+// ==========================================
+// APPEAL STATUS
+// ==========================================
+
+if (
+    appealStatus === "Pending" ||
+    appealStatus === "Under Review"
+) {
+
+    displayValidationStatus = "Under Review";
+
+    displayActionStatus = "Pending Appeal";
+
+}
+else if (appealStatus === "Approved") {
+
+    displayValidationStatus = "Approved";
+
+    displayActionStatus =
+        item.action_status || "Pending Assignment";
+
+}
+else if (appealStatus === "Rejected") {
+
+    displayValidationStatus = "Rejected";
+
+}
+
+
+// ==========================================
+// VALIDATION BADGE COLOR
+// ==========================================
+
+let validationClass =
+    "bg-secondary";
+
+
+if(displayValidationStatus === "Waiting"){
+
+    validationClass = "bg-secondary";
+
+}
+else if(displayValidationStatus === "Under Review"){
+
+    validationClass = "bg-primary";
+
+}
+else if(displayValidationStatus === "Approved"){
+
+    validationClass = "bg-success";
+
+}
+else if(displayValidationStatus === "Rejected"){
+
+    validationClass = "bg-danger";
+
+}
                 /* =========================
                    ACTION STATUS
                 ========================= */
@@ -2684,39 +2722,31 @@ function viewComplaints(){
                     "bg-secondary";
 
 
-                if(
-                    item.action_status ===
-                    "Pending Assignment"
-                ){
+        if(displayActionStatus === "Pending Appeal"){
 
-                    actionClass =
-                        "bg-warning text-dark";
+    actionClass = "bg-warning text-dark";
 
-                }else if(
-                    item.action_status ===
-                    "Assigned"
-                ){
+}
+else if(displayActionStatus === "Pending Assignment"){
 
-                    actionClass =
-                        "bg-info text-dark";
+    actionClass = "bg-warning text-dark";
 
-                }else if(
-                    item.action_status ===
-                    "In Progress"
-                ){
+}
+else if(displayActionStatus === "Assigned"){
 
-                    actionClass =
-                        "bg-primary";
+    actionClass = "bg-info text-dark";
 
-                }else if(
-                    item.action_status ===
-                    "Resolved"
-                ){
+}
+else if(displayActionStatus === "In Progress"){
 
-                    actionClass =
-                        "bg-success";
+    actionClass = "bg-primary";
 
-                }
+}
+else if(displayActionStatus === "Resolved"){
+
+    actionClass = "bg-success";
+
+}
 
 
                 /* =========================
@@ -2726,21 +2756,23 @@ function viewComplaints(){
 
                 let actionStatusHTML = "";
 
+if(
+    displayValidationStatus === "Approved" ||
+    appealStatus === "Pending" ||
+    appealStatus === "Under Review"
+){
 
-                if(
-                    item.validation_status ===
-                    "Approved"
-                ){
 actionStatusHTML = `
 
     <div class="mt-2">
 
+        <span class="small text-muted me-1">
+         
+        </span>
+
         <span class="badge ${actionClass}">
 
-            ${
-                item.action_status ||
-                "Pending Assignment"
-            }
+            ${displayActionStatus}
 
         </span>
 
@@ -2792,7 +2824,7 @@ actionStatusHTML = `
                             <span
                                 class="badge ${validationClass}">
 
-                                ${item.validation_status}
+                               ${displayValidationStatus}
 
                             </span>
 
@@ -2880,38 +2912,31 @@ actionStatusHTML = `
 /* =========================
    OPEN APPEAL MODAL
 ========================= */
-
-function openAppealModal(complaintID){
+function openAppealModal(complaintID) {
 
     fetch(
         "resident-get-complaint.php?id=" +
         encodeURIComponent(complaintID)
     )
-
     .then(res => res.json())
-
     .then(data => {
 
-        if(!data.success){
-
+        if (!data.success) {
             Swal.fire({
                 icon: "error",
                 title: "Unable to Open Appeal",
                 text: data.message || "Complaint could not be found."
             });
-
             return;
         }
 
-
-        let item = data.complaint;
-
+        const item = data.complaint;
 
         /* =========================
            SECURITY CHECK
         ========================= */
 
-        if(item.validation_status !== "Rejected"){
+        if (item.validation_status !== "Rejected") {
 
             Swal.fire({
                 icon: "warning",
@@ -2922,8 +2947,7 @@ function openAppealModal(complaintID){
             return;
         }
 
-
-        if(item.appeal_status === "Pending"){
+        if (item.appeal_status === "Pending") {
 
             Swal.fire({
                 icon: "info",
@@ -2934,8 +2958,7 @@ function openAppealModal(complaintID){
             return;
         }
 
-
-        if(item.appeal_status === "Approved"){
+        if (item.appeal_status === "Approved") {
 
             Swal.fire({
                 icon: "info",
@@ -2948,7 +2971,7 @@ function openAppealModal(complaintID){
 
 
         /* =========================
-           FILL MODAL
+           FILL APPEAL MODAL
         ========================= */
 
         document.getElementById("appealComplaintID").value =
@@ -2964,43 +2987,69 @@ function openAppealModal(complaintID){
 
         document.getElementById("appealReason").value = "";
 
-        document.getElementById("appealCharacterCount").textContent = "0";
+        document.getElementById("appealCharacterCount").textContent =
+            "0";
 
 
         /* =========================
-           SHOW MODAL
+           MODAL ELEMENTS
         ========================= */
 
-        let modalElement =
+        const detailsModalEl =
+            document.getElementById("complaintDetailsModal");
+
+        const appealModalEl =
             document.getElementById("appealModal");
 
-        let modal =
-            bootstrap.Modal.getOrCreateInstance(modalElement);
 
-            function openAppealModal(id){
+        if (!appealModalEl) {
+            console.error("appealModal not found.");
+            return;
+        }
 
-    const detailsModalEl =
-        document.getElementById("complaintDetailsModal");
 
-    const appealModalEl =
-        document.getElementById("appealModal");
+        /* =========================
+           REMOVE FOCUS FIRST
+        ========================= */
 
-    // Save complaint ID
-    document.getElementById("appealComplaintId").value = id;
+        const activeElement = document.activeElement;
 
-    // Hide Complaint Details
-    if(detailsModalEl){
+        if (
+            activeElement &&
+            detailsModalEl &&
+            detailsModalEl.contains(activeElement)
+        ) {
+            activeElement.blur();
+        }
 
-        const detailsModal =
-            bootstrap.Modal.getOrCreateInstance(
-                detailsModalEl
-            );
 
-        detailsModal.hide();
-    }
+        /* =========================
+           HIDE DETAILS MODAL
+        ========================= */
 
-    // Open Appeal Modal
-    if(appealModalEl){
+        if (
+            detailsModalEl &&
+            detailsModalEl.classList.contains("show")
+        ) {
+
+            const detailsModal =
+                bootstrap.Modal.getInstance(detailsModalEl);
+
+            if (detailsModal) {
+
+                /*
+                 * Wait until Bootstrap completely finishes
+                 * hiding the Details modal.
+                 */
+
+           detailsModalEl.addEventListener(
+    "hidden.bs.modal",
+    function showAppealAfterDetailsHidden() {
+
+        detailsModalEl.removeEventListener(
+            "hidden.bs.modal",
+            showAppealAfterDetailsHidden
+        );
 
         const appealModal =
             bootstrap.Modal.getOrCreateInstance(
@@ -3008,39 +3057,46 @@ function openAppealModal(complaintID){
             );
 
         appealModal.show();
-    }
-}
-const appealModalEl =
-    document.getElementById("appealModal");
 
-if(appealModalEl){
+        window.openingAppeal = false;
 
-    appealModalEl.addEventListener(
-        "hidden.bs.modal",
-        function(){
+    },
+    { once: true }
+);
 
-            // Show Complaint Details again
-            const detailsModalEl =
-                document.getElementById(
-                    "complaintDetailsModal"
-                );
 
-            if(detailsModalEl){
+                detailsModal.hide();
 
-                const detailsModal =
+            } else {
+
+                /*
+                 * Details modal is not initialized.
+                 * Open Appeal directly.
+                 */
+                const appealModal =
                     bootstrap.Modal.getOrCreateInstance(
-                        detailsModalEl
+                        appealModalEl
                     );
 
-                detailsModal.show();
+                appealModal.show();
+
             }
+
+        } else {
+
+            /*
+             * Details modal is already hidden.
+             */
+            const appealModal =
+                bootstrap.Modal.getOrCreateInstance(
+                    appealModalEl
+                );
+
+            appealModal.show();
+
         }
-    );
-}
-        modal.show();
 
     })
-
     .catch(error => {
 
         console.error(error);
@@ -3054,8 +3110,6 @@ if(appealModalEl){
     });
 
 }
-
-
 /* =========================
    CHARACTER COUNTER
 ========================= */
@@ -3178,6 +3232,8 @@ document.addEventListener("hidden.bs.modal", function(e) {
     }
 
 });
+
+
 /* =========================
    SUBMIT APPEAL
 ========================= */
@@ -3416,20 +3472,87 @@ function nextPhoto(){
 }
 
 function showComplaintDetails(id){
-fetch("resident-get-complaint.php?id=" + id)
-.then(response => response.json())
-.then(data => {
 
-    if(!data.success){
-        return;
-    }
+    fetch("resident-get-complaint.php?id=" + id)
 
-   let item = data.complaint;
+    .then(response => response.json())
+
+    .then(data => {
+
+        if(!data.success){
+            return;
+        }
+
+        let item = data.complaint;
+// ==========================================
+// DISPLAY STATUS AFTER APPEAL SUBMISSION
+// ==========================================
+
+const originalValidationStatus =
+    item.validation_status;
+
+const appealStatus =
+    item.appeal?.status || null;
+
+let displayValidationStatus =
+    originalValidationStatus;
+
+let displayActionStatus =
+    item.action_status || "Pending Assignment";
+
+
+// ==========================================
+// APPEAL STATUS DISPLAY
+// ==========================================
+
+if (
+    appealStatus === "Pending" ||
+    appealStatus === "Under Review"
+) {
+
+    // Appeal is currently being reviewed
+    displayValidationStatus = "Under Review";
+
+    // Complaint is waiting for appeal decision
+    displayActionStatus = "Pending Appeal";
+
+}
+else if (appealStatus === "Approved") {
+
+    // Appeal was accepted
+    displayValidationStatus = "Approved";
+
+    // Return to normal complaint action status
+    displayActionStatus =
+        item.action_status || "Pending Assignment";
+
+}
+else if (appealStatus === "Rejected") {
+
+    // Appeal was rejected
+    displayValidationStatus = "Rejected";
+
+}
+console.log(
+    "ORIGINAL VALIDATION STATUS:",
+    originalValidationStatus
+);
+
+console.log(
+    "DISPLAY VALIDATION STATUS:",
+    displayValidationStatus
+);
+
+console.log(
+    "SUBMITTED DATE:",
+    item.submitted_at
+);
 console.log("SUBMITTED DATE:", item.submitted_at);
+
 let formattedDate = "";
 let formattedTime = "";
 
-if(item.submitted_at){
+if (item.submitted_at) {
 
     let parts = item.submitted_at.split(" | ");
 
@@ -3437,279 +3560,523 @@ if(item.submitted_at){
     formattedTime = parts[1] || "";
 
 }
+        /* ==========================================
+           DETAILS CONTAINER
+        ========================================== */
 
-let details = document.getElementById("complaintDetails");
-   let photosHTML = "";
+        let details =
+            document.getElementById("complaintDetails");
 
-if(item.photos && item.photos.length > 0){
+        let photosHTML = "";
 
-    const showArrows = item.photos.length > 1;
 
-    photosHTML = `
-        <hr>
+        /* ==========================================
+           PHOTOS
+        ========================================== */
 
-        <h6 class="fw-bold mb-3">
-            Complaint Photo
-        </h6>
+        if(item.photos && item.photos.length > 0){
 
-        <div class="photo-slider">
+            const showArrows = item.photos.length > 1;
 
-            <button
-                class="photo-control ${showArrows ? '' : 'hidden'}"
-                id="prevBtn"
-                onclick="prevPhoto()">
-                <i class="bi bi-chevron-left"></i>
-            </button>
+            photosHTML = `
 
-            <div class="photo-container" id="photoContainer"></div>
+                <hr>
 
-            <button
-                class="photo-control ${showArrows ? '' : 'hidden'}"
-                id="nextBtn"
-                onclick="nextPhoto()">
-                <i class="bi bi-chevron-right"></i>
-            </button>
+                <h6 class="fw-bold mb-3">
+                    Complaint Photo
+                </h6>
 
-        </div>
-    `;
-}
-details.innerHTML = `
+                <div class="photo-slider">
 
-<div class="d-flex justify-content-between align-items-start mb-3">
+                    <button
+                        class="photo-control ${showArrows ? '' : 'hidden'}"
+                        id="prevBtn"
+                        onclick="prevPhoto()">
 
-    <div>
-        <h5 class="fw-bold text-success mb-0">
-            ${item.ticket_no}
-        </h5>
-    </div>
+                        <i class="bi bi-chevron-left"></i>
 
-    <div class="text-end ms-2">
-    <strong>
-    ${formattedDate}
-</strong>
+                    </button>
 
-<br>
 
-<small>
-    ${formattedTime}
-</small>
-    </div>
+                    <div
+                        class="photo-container"
+                        id="photoContainer">
+                    </div>
+
+
+                    <button
+                        class="photo-control ${showArrows ? '' : 'hidden'}"
+                        id="nextBtn"
+                        onclick="nextPhoto()">
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* ==========================================
+           APPEAL CHECK
+        ========================================== */
+
+        const hasAppeal =
+            item.appeal !== null &&
+            item.appeal !== undefined;
+
+
+        /* ==========================================
+           COMPLAINT DETAILS
+        ========================================== */
+
+        details.innerHTML = `
+
+            <div class="d-flex justify-content-between align-items-start mb-3">
+
+                <div>
+
+                    <h5 class="fw-bold text-success mb-0">
+                        ${item.ticket_no}
+                    </h5>
+
+                </div>
+
+
+                <div class="text-end ms-2">
+
+                    <strong>
+                        ${formattedDate}
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        ${formattedTime}
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <div class="row g-2 complaint-info-row">
+
+
+                <!-- CATEGORY -->
+
+                <div class="col-6">
+
+                    <strong>Category:</strong><br>
+
+                    ${item.category}
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="col-6">
+
+                    <strong>Location:</strong><br>
+
+                    ${item.complaint_location}
+
+                </div>
+
+
+   <!-- VALIDATION STATUS -->
+
+<div class="col-6">
+
+    <strong>Validation Status:</strong><br>
+
+    <span class="badge ${
+        displayValidationStatus === "Waiting"
+            ? "bg-secondary"
+
+        : displayValidationStatus === "Under Review"
+            ? "bg-primary"
+
+        : displayValidationStatus === "Approved"
+            ? "bg-success"
+
+        : "bg-danger"
+    }">
+
+        ${displayValidationStatus}
+
+    </span>
 
 </div>
-<hr>
-
-<div class="row g-2 complaint-info-row">
-
-    <div class="col-6">
-        <strong>Category:</strong><br>
-        ${item.category}
-    </div>
-
-    <div class="col-6">
-        <strong>Location:</strong><br>
-        ${item.complaint_location}
-    </div>
 
 
-    <!-- Validation Status -->
-    <div class="col-6">
-        <strong>Validation Status:</strong><br>
-
-        <span class="badge ${
-            item.validation_status === "Waiting" ? "bg-secondary" :
-            item.validation_status === "Under Review" ? "bg-primary" :
-            item.validation_status === "Approved" ? "bg-success" :
-            "bg-danger"
-        }">
-            ${item.validation_status}
-        </span>
-    </div>
-
-
-    ${
-      item.validation_status === "Approved"
-
-        ? `
-
-            <!-- AFTER: Action Status beside Validation Status -->
-            <div class="col-6">
-                <strong>Action Status:</strong><br>
-
-                <span class="badge ${
-                    item.action_status === "Pending Assignment"
-                        ? "bg-warning text-dark" :
-                    item.action_status === "Assigned"
-                        ? "bg-info text-dark" :
-                    item.action_status === "In Progress"
-                        ? "bg-primary" :
-                    item.action_status === "Resolved"
-                        ? "bg-success" :
-                    "bg-danger"
-                }">
-                    ${item.action_status}
-                </span>
-            </div>
-
-            <!-- AFTER: Description goes below -->
-            <div class="col-12 mt-3">
-                <strong>Description:</strong><br>
-                ${item.description}
-            </div>
-
-        `
-
-        : `
-
-            <!-- BEFORE: Description beside Validation Status -->
-            <div class="col-6">
-                <strong>Description:</strong><br>
-                ${item.description}
-            </div>
-
-        `
-    }
-
-
-    ${photosHTML}
+<!-- ACTION STATUS -->
 
 ${
-    item.validation_status === "Rejected"
+    displayValidationStatus === "Approved" ||
+    appealStatus === "Pending" ||
+    appealStatus === "Under Review"
 
     ? `
 
-        <div class="col-12 mt-3">
+        <div class="col-6">
 
-            <div class="alert alert-danger mb-3">
+            <strong>Action Status:</strong><br>
 
-                <div class="fw-bold mb-2">
-                    <i class="bi bi-exclamation-circle me-1"></i>
-                    Complaint Returned
-                </div>
+            <span class="badge ${
+                displayActionStatus === "Pending Appeal"
+                    ? "bg-warning text-dark"
 
-                <div class="small">
-                    <strong>Reason:</strong>
-                </div>
+                : displayActionStatus === "Pending Assignment"
+                    ? "bg-warning text-dark"
 
-                <div class="mt-1">
-                    ${
-                        item.remarks ||
-                        item.admin_notes ||
-                        "No return reason was provided."
-                    }
-                </div>
+                : displayActionStatus === "Assigned"
+                    ? "bg-info text-dark"
 
-            </div>
+                : displayActionStatus === "In Progress"
+                    ? "bg-primary"
 
+                : displayActionStatus === "Resolved"
+                    ? "bg-success"
 
-            ${
-                item.appeal_status === "Pending"
+                : "bg-secondary"
+            }">
 
-                ? `
+                ${displayActionStatus}
 
-                    <button
-                        type="button"
-                        class="btn btn-warning w-100"
-                        disabled>
-
-                        <i class="bi bi-hourglass-split me-1"></i>
-                        Appeal Pending
-
-                    </button>
-
-                `
-
-                : item.appeal_status === "Approved"
-
-                ? `
-
-                    <button
-                        type="button"
-                        class="btn btn-success w-100"
-                        disabled>
-
-                        <i class="bi bi-check-circle me-1"></i>
-                        Appeal Approved
-
-                    </button>
-
-                `
-
-                : item.appeal_status === "Rejected"
-
-                ? `
-
-                    <button
-                        type="button"
-                        class="btn btn-danger w-100"
-                        disabled>
-
-                        <i class="bi bi-x-circle me-1"></i>
-                        Appeal Rejected
-
-                    </button>
-
-                `
-
-                : `
-
-                  <div class="text-end">
-
-    <button
-        type="button"
-        class="btn btn-primary btn-sm"
-        onclick="openAppealModal(${item.id})">
-
-        <i class="bi bi-arrow-repeat me-1"></i>
-        Appeal Complaint
-
-    </button>
-
-</div>
-                `
-            }
+            </span>
 
         </div>
 
     `
-
     : ""
 }
-    `;
-if(item.photos && item.photos.length > 0){
-    loadPhotos(item.photos);
-}
 
-const complaintsModalEl =
-    document.getElementById("complaintsModal");
 
-const detailsModalEl =
-    document.getElementById("complaintDetailsModal");
+<!-- DESCRIPTION -->
 
-if(detailsModalEl){
+<div class="col-12 mt-3">
 
-    // Hide My Complaints first
-    if(complaintsModalEl){
+    <strong>Description:</strong><br>
 
-        const complaintsModal =
-            bootstrap.Modal.getOrCreateInstance(
-                complaintsModalEl
-            );
+    ${item.description || ""}
 
-        complaintsModal.hide();
-    }
+</div>
+                 
 
-    // Open Complaint Details
-    const detailsModal =
-        bootstrap.Modal.getOrCreateInstance(
-            detailsModalEl
+                ${photosHTML}
+
+
+                ${
+                    /*
+                     * Show returned complaint information when:
+                     *
+                     * 1. Complaint is currently Rejected
+                     * OR
+                     * 2. Complaint already has an appeal
+                     *
+                     * This is necessary because after an appeal,
+                     * validation_status becomes Waiting / Under Review /
+                     * Approved / Rejected.
+                     */
+
+                    item.validation_status === "Rejected" || hasAppeal
+
+                    ? `
+
+                        <div class="col-12 mt-3">
+
+
+                            ${
+                                /*
+                                 * SHOW ORIGINAL RETURN REASON
+                                 *
+                                 * If appeal exists, still show the
+                                 * original reason for returning the
+                                 * complaint.
+                                 */
+
+                                item.remarks
+
+                                ? `
+
+                                    <div class="alert alert-danger mb-3">
+
+                                        <div class="fw-bold mb-2">
+
+                                            <i class="bi bi-exclamation-circle me-1"></i>
+
+                                            Complaint Returned
+
+                                        </div>
+
+
+                                        <div class="small">
+
+                                            <strong>Reason:</strong>
+
+                                        </div>
+
+
+                                        <div class="mt-1">
+
+                                            ${item.remarks}
+
+                                        </div>
+
+                                    </div>
+
+                                `
+
+                                : ""
+
+                            }
+
+
+                            ${
+                                hasAppeal
+
+                                ? `
+
+                                    <!-- =========================
+                                         APPEAL DETAILS
+                                    ========================= -->
+
+                                    <div class="card border mb-3">
+
+                                        <div class="card-body">
+
+
+                                            <h6 class="fw-bold mb-3">
+
+                                                <i class="bi bi-arrow-repeat me-1"></i>
+
+                                                Complaint Appeal
+
+                                            </h6>
+
+
+<!-- APPEAL SUBMITTED -->
+
+<div class="mb-3">
+
+    <div class="small text-muted">
+        Appeal Submitted
+    </div>
+
+    <div class="fw-semibold">
+        ${item.appeal?.submitted_at || "N/A"}
+    </div>
+
+</div>
+
+                                            <!-- APPEAL REASON -->
+
+                                            <div class="mb-3">
+
+                                                <div class="small text-muted">
+
+                                                    Appeal Reason
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    ${
+                                                        item.appeal.appeal_reason ||
+                                                        "N/A"
+                                                    }
+
+                                                </div>
+
+                                            </div>
+
+
+                                            ${
+                                                (
+                                                    item.appeal.status === "Approved" ||
+                                                    item.appeal.status === "Rejected"
+                                                )
+
+                                                ? `
+
+                                                    ${
+                                                        item.appeal.reviewed_at
+
+                                                        ? `
+
+                                                            <div class="mb-3">
+
+                                                                <div class="small text-muted">
+
+                                                                    Reviewed
+
+                                                                </div>
+
+
+                                                                <div>
+
+                                                                    ${item.appeal.reviewed_at}
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        `
+
+                                                        : ""
+
+                                                    }
+
+
+                                                    ${
+                                                        item.appeal.secretary_remarks
+
+                                                        ? `
+
+                                                            <div>
+
+                                                                <div class="small text-muted">
+
+                                                                    Secretary Remarks
+
+                                                                </div>
+
+
+                                                                <div>
+
+                                                                    ${item.appeal.secretary_remarks}
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        `
+
+                                                        : ""
+
+                                                    }
+
+                                                `
+
+                                                : ""
+
+                                            }
+
+
+                                        </div>
+
+                                    </div>
+
+                                `
+
+
+                                : `
+
+                                    <!-- =========================
+                                         NO APPEAL YET
+                                    ========================= -->
+
+                                    <div class="text-end">
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-primary btn-sm"
+                                            onclick="openAppealModal(${item.id})">
+
+                                            <i class="bi bi-arrow-repeat me-1"></i>
+
+                                            Appeal Complaint
+
+                                        </button>
+
+                                    </div>
+
+                                `
+
+                            }
+
+                        </div>
+
+                    `
+
+                    : ""
+
+                }
+
+            </div>
+
+        `;
+
+
+        /* ==========================================
+           LOAD PHOTOS
+        ========================================== */
+
+        if(item.photos && item.photos.length > 0){
+
+            loadPhotos(item.photos);
+
+        }
+
+
+        /* ==========================================
+           MODALS
+        ========================================== */
+
+        const complaintsModalEl =
+            document.getElementById("complaintsModal");
+
+        const detailsModalEl =
+            document.getElementById("complaintDetailsModal");
+
+
+        if(detailsModalEl){
+
+
+            /* Hide My Complaints first */
+
+            if(complaintsModalEl){
+
+                const complaintsModal =
+                    bootstrap.Modal.getOrCreateInstance(
+                        complaintsModalEl
+                    );
+
+                complaintsModal.hide();
+
+            }
+
+
+            /* Open Complaint Details */
+
+            const detailsModal =
+                bootstrap.Modal.getOrCreateInstance(
+                    detailsModalEl
+                );
+
+                detailsModal.show();
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(
+            "Error loading complaint details:",
+            error
         );
 
-    detailsModal.show();
-}
-
-});
-
-
+    });
 
 }
 // Toggle Location Dropdown
@@ -3749,37 +4116,57 @@ document.addEventListener("click",function(e){
     }
 
 });
-const detailsModal = document.getElementById("complaintDetailsModal");
+const detailsModal =
+    document.getElementById("complaintDetailsModal");
 
+if (detailsModal) {
 
-detailsModal.addEventListener("show.bs.modal",function(){
+    detailsModal.addEventListener(
+        "show.bs.modal",
+        function () {
 
-    document.body.classList.add("details-open");
+            document.body.classList.add(
+                "details-open"
+            );
 
-});
-
-
-detailsModal.addEventListener(
-    "hidden.bs.modal",
-    function(){
-
-        document.body.classList.remove("details-open");
-
-        // Show My Complaints again
-        const complaintsModalEl =
-            document.getElementById("complaintsModal");
-
-        if(complaintsModalEl){
-
-            const complaintsModal =
-                bootstrap.Modal.getOrCreateInstance(
-                    complaintsModalEl
-                );
-
-            complaintsModal.show();
         }
-    }
-);
+    );
+
+
+    detailsModal.addEventListener(
+        "hidden.bs.modal",
+        function () {
+
+            document.body.classList.remove(
+                "details-open"
+            );
+
+            /*
+             * Do not reopen My Complaints
+             * when transitioning to Appeal.
+             */
+            if (window.openingAppeal) {
+                return;
+            }
+
+            const complaintsModalEl =
+                document.getElementById("complaintsModal");
+
+            if (complaintsModalEl) {
+
+                const complaintsModal =
+                    bootstrap.Modal.getOrCreateInstance(
+                        complaintsModalEl
+                    );
+
+                complaintsModal.show();
+
+            }
+
+        }
+    );
+
+}
 function confirmLogout(){
 
 Swal.fire({

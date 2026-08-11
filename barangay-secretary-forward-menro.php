@@ -3,132 +3,233 @@
 session_start();
 
 header("Content-Type: application/json");
+date_default_timezone_set("Asia/Manila");
 
 
-if(
+// ==========================================
+// AUTHENTICATION
+// ==========================================
+
+if (
     !isset($_SESSION['user_id']) ||
-    $_SESSION['role'] != "barangay_secretary"
-){
-
+    !isset($_SESSION['role']) ||
+    $_SESSION['role'] !== "barangay_secretary"
+) {
     echo json_encode([
-        "success"=>false,
-        "message"=>"Unauthorized"
+        "success" => false,
+        "message" => "Unauthorized"
     ]);
-
     exit;
-
 }
 
 
-// DB CONNECTION
-$conn = new mysqli(
-    "localhost",
-    "u823857209_enviromanage",
-    "Enviromanage4322",
-    "u823857209_enviromanage"
-);
+// ==========================================
+// DATABASE
+// ==========================================
 
-$conn->set_charset("utf8mb4");
+require_once "db.php";
 
 
+// ==========================================
+// GET INPUT
+// ==========================================
 
-$secretaryID = $_SESSION['user_id'];
-
+$secretaryID = intval($_SESSION['user_id']);
 
 $id = intval($_POST['id'] ?? 0);
 
 $remarks = trim($_POST['remarks'] ?? '');
 
 
+// ==========================================
+// VALIDATE ID
+// ==========================================
 
-if($id <= 0){
+if ($id <= 0) {
 
     echo json_encode([
-        "success"=>false,
-        "message"=>"Invalid complaint."
+        "success" => false,
+        "message" => "Invalid complaint ID."
     ]);
 
     exit;
-
 }
 
 
+// ==========================================
+// VALIDATE REMARKS
+// ==========================================
 
-if($remarks == ""){
+if ($remarks === "") {
 
     echo json_encode([
-        "success"=>false,
-        "message"=>"Remarks are required."
+        "success" => false,
+        "message" => "Remarks are required."
     ]);
 
     exit;
-
 }
 
 
+// ==========================================
+// CHECK COMPLAINT
+// ==========================================
 
+$check = $conn->prepare("
+    SELECT
+        id,
+        validation_status,
+        action_status
+    FROM resident_complaints
+    WHERE id = ?
+");
+
+if (!$check) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "CHECK PREPARE ERROR: " . $conn->error
+    ]);
+
+    exit;
+}
+
+
+$check->bind_param("i", $id);
+
+
+if (!$check->execute()) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "CHECK EXECUTE ERROR: " . $check->error
+    ]);
+
+    $check->close();
+    exit;
+}
+
+
+$result = $check->get_result();
+
+
+// ==========================================
+// COMPLAINT NOT FOUND
+// ==========================================
+
+if ($result->num_rows === 0) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Complaint not found."
+    ]);
+
+    $check->close();
+    exit;
+}
+
+
+$complaint = $result->fetch_assoc();
+
+$check->close();
+
+
+// ==========================================
+// CHECK STATUS
+// ==========================================
+
+if ($complaint["validation_status"] !== "Under Review") {
+
+    echo json_encode([
+        "success" => false,
+        "message" =>
+            "Complaint cannot be forwarded. Current validation status is: " .
+            $complaint["validation_status"]
+    ]);
+
+    exit;
+}
+
+
+// ==========================================
+// FORWARD TO MENRO
+// ==========================================
 
 $stmt = $conn->prepare("
-UPDATE complaints
-
-SET
-
-validation_status = 'Approved',
-
-action_status = 'Forwarded',
-
-remarks = ?,
-
-reviewed_by = ?,
-
-reviewed_at = NOW()
-
-WHERE id = ?
-
-AND validation_status = 'Under Review'
-
+    UPDATE resident_complaints
+    SET
+        validation_status = 'Approved',
+        action_status = 'Pending Assignment',
+        remarks = ?,
+        reviewed_by = ?,
+        reviewed_at = NOW()
+    WHERE id = ?
+    AND validation_status = 'Under Review'
 ");
 
 
-$stmt->bind_param(
-"sii",
-$remarks,
-$secretaryID,
-$id
-);
-
-
-
-$stmt->execute();
-
-
-
-if($stmt->affected_rows > 0){
-
+if (!$stmt) {
 
     echo json_encode([
-
-        "success"=>true,
-
-        "message"=>"Complaint forwarded to MENRO."
-
+        "success" => false,
+        "message" => "UPDATE PREPARE ERROR: " . $conn->error
     ]);
 
-
-
-}else{
-
-
-    echo json_encode([
-
-        "success"=>false,
-
-        "message"=>"Complaint cannot be forwarded."
-
-    ]);
-
+    exit;
 }
 
 
+$stmt->bind_param(
+    "sii",
+    $remarks,
+    $secretaryID,
+    $id
+);
+
+
+if (!$stmt->execute()) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "UPDATE ERROR: " . $stmt->error
+    ]);
+
+    $stmt->close();
+    exit;
+}
+
+
+// ==========================================
+// CHECK UPDATE
+// ==========================================
+
+if ($stmt->affected_rows <= 0) {
+
+    echo json_encode([
+        "success" => false,
+        "message" => "Complaint was not updated."
+    ]);
+
+    $stmt->close();
+    exit;
+}
+
+
+// ==========================================
+// SUCCESS
+// ==========================================
+
+echo json_encode([
+    "success" => true,
+    "message" => "Complaint forwarded to MENRO.",
+    "complaint_id" => $id,
+    "validation_status" => "Approved",
+    "action_status" => "Pending Assignment"
+]);
+
+
+$stmt->close();
+
+exit;
 
 ?>
