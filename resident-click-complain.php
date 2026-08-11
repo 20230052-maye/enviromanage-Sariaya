@@ -3431,39 +3431,10 @@ let formattedTime = "";
 
 if(item.submitted_at){
 
-    let rawDate = item.submitted_at;
+    let parts = item.submitted_at.split(" | ");
 
-    // Remove microseconds kung meron
-    rawDate = rawDate.split(".")[0];
-
-
-    let submittedDate = new Date(
-        rawDate.replace(" ","T")
-    );
-
-
-    if(!isNaN(submittedDate)){
-
-        formattedDate = submittedDate.toLocaleDateString('en-US',{
-            month:"long",
-            day:"numeric",
-            year:"numeric"
-        });
-
-
-        formattedTime = submittedDate.toLocaleTimeString('en-US',{
-            hour:"numeric",
-            minute:"2-digit",
-            hour12:true
-        });
-
-
-    }else{
-
-        formattedDate = rawDate;
-        formattedTime = "";
-
-    }
+    formattedDate = parts[0] || "";
+    formattedTime = parts[1] || "";
 
 }
 

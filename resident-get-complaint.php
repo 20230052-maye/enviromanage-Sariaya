@@ -44,6 +44,7 @@ SELECT
     description,
     validation_status,
     action_status,
+    remarks,
     submitted_at
 FROM resident_complaints
 WHERE id = ?
