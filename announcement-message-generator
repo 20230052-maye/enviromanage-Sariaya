@@ -1,0 +1,29 @@
+<?php
+header('Content-Type: application/json');
+
+$data = json_decode(file_get_contents("php://input"), true);
+
+$title = strtolower($data['title'] ?? '');
+$audience = $data['audience'] ?? 'all';
+
+$messages = [
+  "garbage" => "Please be advised that garbage collection will follow the updated schedule. Kindly prepare your waste accordingly.",
+  "water" => "There will be a temporary water interruption. Please store enough water for your needs.",
+  "road" => "Road maintenance activities will be conducted. Please expect possible delays and plan your travel accordingly.",
+  "emergency" => "This is an emergency advisory. Please stay alert and follow official instructions.",
+  "flood" => "Flood warning issued. Residents are advised to stay safe and monitor updates.",
+  "power" => "There will be a scheduled power interruption. Please take necessary precautions."
+];
+
+$response = "Please stay informed regarding this announcement.";
+
+foreach ($messages as $keyword => $msg) {
+  if (strpos($title, $keyword) !== false) {
+    $response = $msg;
+    break;
+  }
+}
+
+echo json_encode([
+  "message" => $response
+]);

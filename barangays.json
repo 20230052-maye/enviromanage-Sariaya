@@ -1,0 +1,464 @@
+{
+  "ANTIPOLO": [
+    "Sitio Silagan, Antipolo",
+    "Sitio Riles, Antipolo",
+    "Purok 3, Antipolo",
+    "Purok 4, Antipolo",
+    "Purok 6, Antipolo"
+  ],
+
+  "BALUBAL": [
+    "Purok 3a, Balubal",
+    "3a, Purok Maginhawa Balubal",
+    "Quiminiano St",
+    "Cambodia Street",
+    "Greece Street",
+    "Canada Street",
+    "Yakal Street"
+  ],
+
+  "BARANGAY 1": [
+    "Felino St",
+    "Reynoso St",
+    "Sampaguitta St",
+    "Purok 1",
+    "P. Burgos St",
+    "Gumamela St",
+    "C. Barcelona St",
+    "Villapando St",
+    "Razon St",
+    "Burgos Street",
+    "Balagtas Street",
+    "Narra St"
+  ],
+
+  "BARANGAY 2": [
+    "T. Quiminiano St",
+    "Purok 2",
+    "Rodriguez St",
+    "Gala St",
+    "Quezon Ave",
+    "Rizal Street",
+    "Del Pilar Street",
+    "Magdami Street",
+    "Valderas Street",
+    "Pablo Street",
+    "Dr. Simeon Street",
+    "Acacia Street",
+    "Hawili St",
+    "Lindog St"
+  ],
+
+  "BARANGAY 3": [
+    "General Luna St",
+    "Arellano St",
+    "Del Pilar Street",
+    "Kap Aguas Street",
+    "Arellano Street",
+    "Razon Street",
+    "Landicho Street",
+    "Malabanan Street",
+    "T. Quiminiano Street",
+    "Carneo Street",
+    "Camponpon Street",
+    "Rabina St",
+    "Marichi",
+    "G. Enriquez St",
+    "G. De Chavez St"
+  ],
+
+  "BARANGAY 4": [
+    "Pablo Street",
+    "Manese Street",
+    "Alcantara Street",
+    "Gov. Rodriguez Street",
+    "E.S. Remo Street",
+    "Lt. Prosimo Street",
+    "Col.Martin Street",
+    "Col.A. Labitigan Street",
+    "Kapitan Loyosa Street",
+    "Kasadya Street",
+    "G. Enriquez Street",
+    "Daliz Street",
+    "Castillo Street",
+    "Mindanao Street"
+  ],
+
+  "BARANGAY 5": [
+    "Rizal Street",
+    "Quezon Ave",
+    "Daliz Street",
+    "Gomez Street",
+    "Magdami Street",
+    "Argente Street",
+    "Dela Cruz Street",
+    "Geronimo Street",
+    "Kasadya St",
+    "Bonifacio St",
+    "G. Luna St"
+  ],
+
+  "BARANGAY 6": [
+    "Mabini Street",
+    "Daliz St",
+    "Bonifacio St",
+    "Gomez St",
+    "Argente St",
+    "Dela Cruz St",
+    "Kasadya St",
+    "Jumawan St"
+  ],
+
+  "BIGNAY 1": [
+    "Sitio Bautro",
+    "Sitio Mangga",
+    "Sitio Tinong",
+    "Sitio Pontor",
+    "Eco Tourism Road",
+    "Sitio Aplay",
+    "Sitio Manigbas",
+    "Sitio Bignay 1"
+  ],
+
+  "BIGNAY 2": [
+    "Montecillo - Sitio Tabag",
+    "Sitio Kaingin",
+    "Sitio Kaingin-Kanluran",
+    "Sitio Pontor",
+    "Sitio Sampaguitta",
+    "Sitio Tabag",
+    "Sitio Centro",
+    "Sitio Loon"
+  ],
+
+  "BUCAL": [
+    "Sitio Beringuela",
+    "Sitio Crosing",
+    "Sitio Cavite",
+    "Camposagrado St",
+    "Mabini Street",
+    "Bucal-Talaan Rd",
+    "Jack David Porter Rd",
+    "Sitio-Manalo"
+  ],
+
+  "CANDA": [
+    "Canda Rd",
+    "Canda-Limbon Rd",
+    "Jack David Porter Rd",
+    "Sitio Manalo",
+    "Sitio Gabog",
+    "Sitio Tribu",
+    "Purok Motesore",
+    "Sitio Pereng",
+    "Purok Sitio Centro"
+  ],
+
+  "CASTANAS": [
+    "Sitio Bacungan",
+    "Sitio Curva",
+    "Sitio Ulbok Ilaya",
+    "Sitio Tangkil",
+    "Sitio Central",
+    "Sitio Taywanak"
+  ],
+
+  "CONCEPCION BANAHAW": [
+    "Sitio Mangga",
+    "Sitio Langka",
+    "Sitio Balete",
+    "Sitio Pamintahan",
+    "Sitio Rilag",
+    "Sitio Tres Mango",
+    "Sitio Elementary"
+  ],
+
+  "CONCEPCION 1": [
+    "Sitio Santolan",
+    "Sitio Carnation",
+    "Sitio Bibingkahan",
+    "Sitio Velasco",
+    "Sitio Castillo",
+    "Sitio Simbahan",
+    "Sitio Centro"
+  ],
+
+  "CONCEPCION PALASAN": [
+    "Sitio Razon",
+    "Sitio Honeybee",
+    "Sitio Padillo",
+    "Sitio Looban",
+    "Sitio Mangga",
+    "Sitio Quiminiano"
+  ],
+
+  "CONCEPCION PINAGBAKURAN": [
+    "Sitio Fabre",
+    "Sitio Tanke",
+    "Sitio Calamias",
+    "Sitio Felimon",
+    "Sitio Kulapihan",
+    "Sitio Bignay",
+    "Sitio Dagatan",
+    "Sitio Calobcob",
+    "Sitio Dulong Ilaya"
+  ],
+
+  "GIBANGA": [
+    "Sitio Toyohan",
+    "Sitio Villones",
+    "Purok 2",
+    "Purok 4",
+    "Purok 5",
+    "Purok 7"
+  ],
+
+  "GUISGUIS-SAN ROQUE": [
+    "Sitio Aplaya",
+    "Sitio Marichi",
+    "Sitio Centro",
+    "Sitio Sagingan",
+    "Sitio Silangan",
+    "Sitio Kanto",
+    "Sitio Ilaya",
+    "Sitio Taywanak"
+  ],
+
+  "GUISGUIS-TALON": [
+    "Sitio Aplaya",
+    "Sitio Simbahang Nayon",
+    "Sitio Silangan",
+    "Sitio Pier",
+    "Sitio Dalampasigan",
+    "Sitio Gamao",
+    "Sitio Kalentong",
+    "Sitio Centro",
+    "Sitio Montesore",
+    "Sitio Paraiso",
+    "Sitio Ahon"
+  ],
+
+  "JANAGDONG 1": [
+    "Sitio Ilaya",
+    "Sitio Dulong Ilaya",
+    "Sitio Bayuhan",
+    "Sitio Masiyahin",
+    "Sitio Sitri",
+    "Purok Lubog",
+    "Purok 1",
+    "Purok 7"
+  ],
+
+  "JANAGDONG 2": [
+    "Sitio Senegwelasan",
+    "Sitio School",
+    "Sitio Gabog",
+    "Sitio Ahasan",
+    "Sitio Highlander",
+    "Sitio Mariche"
+  ],
+
+  "LIMBON": [
+    "Sitio Tangkil",
+    "Sitio Central",
+    "Sitio Kanluran",
+    "Purok 4",
+    "Purok 5",
+    "Purok 7"
+  ],
+
+  "LUTUCAN 1": [
+    "Sitio Ulbok",
+    "Sitio Forbes",
+    "Sitio Mazapan",
+    "Sitio Loob",
+    "Sitio Banlikan"
+  ],
+
+  "LUTUCAN BATA": [
+    "Sitio Manigbas",
+    "Sitio Delantar",
+    "Sitio Armamento",
+    "Sitio Aya",
+    "Sitio Bungkalot",
+    "Sitio Bautro",
+    "Sitio Alib"
+  ],
+
+  "LUTUCAN MALABAG": [
+    "Sitio Malabag",
+    "Sitio Lagnas",
+    "Sitio Looban",
+    "Sitio Bungkalot",
+    "Sitio Palmera"
+  ],
+
+  "MAMALA 1": [
+    "Purok 3",
+    "Doña Concha Subdv",
+    "Purok 5"
+  ],
+
+  "MAMALA 2": [
+    "Quezon Ave",
+    "C5 Rd",
+    "Kalye Eduardo",
+    "Kalye Liceria",
+    "Kalye Sixto",
+    "Kalye Consolasion",
+    "Kalye Eugenio",
+    "Canada St",
+    "Japan St",
+    "Saudi Arabia St",
+    "New York St",
+    "Hongkong St",
+    "Singapore St",
+    "Palestine St",
+    "Jerusalem St",
+    "Jordan St",
+    "Canah St",
+    "Niveth St",
+    "Mount Olives St",
+    "Mount Sinai St",
+    "Israel St",
+    "P. Jumawan St",
+    "B. Lindog St",
+    "Dao St",
+    "Evergreen",
+    "Flamenia",
+    "Pablo St",
+    "Hawii St",
+    "Ipil Ipil St",
+    "Arellano St"
+  ],
+
+  "MANGGALANG 1": [
+    "Sitio Manggalang",
+    "Sitio Tabag",
+    "Sitio Berhinan",
+    "Sitio Pulo 1",
+    "Sitio Sampaloc",
+    "Sitio Laylay",
+    "Sitio Duluhan",
+    "Sitio Aratay"
+  ],
+
+  "MANGGALANG TULO-TULO": [
+    "Sitio Maharlika",
+    "Sitio Pag asa",
+    "Sitio Aratan",
+    "Sitio Aratan Right",
+    "Sitio Ilaya"
+  ],
+
+  "MANGGALANG BANTILAN": [
+    "Sitio Paradahan",
+    "Sitio Guiting",
+    "Sitio Muntinlupa",
+    "Sitio Bilig",
+    "Sitio Pili"
+  ],
+
+  "MANGGALANG KILING": [
+    "Sitio Bilig",
+    "Sitio Ibaba",
+    "Centro St",
+    "Sitio Ilaya",
+    "Purok Rasak"
+  ],
+
+  "MONTECILLO": [
+    "Sitio Marilag",
+    "Lutucan Guis Guis Rd",
+    "Montecillo Barangay Rd",
+    "Sitio Matapat",
+    "Sitio Maligaya",
+    "Sitio Masigasig"
+  ],
+
+  "MORONG": [
+    "Sitio Masay",
+    "Sitio Ibaba",
+    "Sitio Atisan"
+  ],
+
+  "PILI": [
+    "Sitio Habitat",
+    "Sitio Alvarez",
+    "Sitio Bulihan",
+    "Kalye Pablo St"
+  ],
+
+  "SAMPALOC 1": [
+    "Rama St",
+    "Sitio Gamboa",
+    "Galas St",
+    "Sitio Medina",
+    "Sitio Galaxy",
+    "Sitio Himlayan"
+  ],
+
+  "SAMPALOC 2": [
+    "Sitio Devilla",
+    "Sitio Socorro",
+    "Sta Clara Subdivision",
+    "Sitio Manalo",
+    "Sitio Ballite",
+    "Sitio River Control"
+  ],
+
+  "SAMPALOC BOGON": [
+    "Sitio Bugon",
+    "Sitio Pook",
+    "Purok 1",
+    "Purok 3",
+    "Purok 5",
+    "Purok 6",
+    "Purok 7"
+  ],
+
+  "SAMPALOC SANTO CRISTO": [
+    "Tierra Monde",
+    "Lumina Homes",
+    "Purok 2",
+    "Purok 7"
+  ],
+
+  "TALAAN APLAYA": [
+    "Sitio Buli",
+    "Sitio Ilaya",
+    "Sitio Kanluran",
+    "Sitio Centro",
+    "Purok Arc",
+    "Purok Otoy",
+    "Purok Dito"
+  ],
+
+  "TALAANPANTOC": [
+    "Sitio Maligaya",
+    "Sitio Balagbag",
+    "Sitio Atisan",
+    "Sitio Simbre",
+    "Purok 1",
+    "Purok 3",
+    "Purok 4"
+  ],
+
+  "TUMBAGA 1": [
+    "Sitio Manalo",
+    "Sitio Gumamella",
+    "Sitio Sarapbuhay",
+    "Sitio Curba",
+    "Tumbaga-Canda Rd",
+    "Purok 5",
+    "Purok 6"
+  ],
+
+  "TUMBAGA 2": [
+    "Sitio Sunflower",
+    "Sitio Jasmin",
+    "Sitio Manalo",
+    "Sitio Sampaga",
+    "Purok Sampaguita"
+  ]
+}

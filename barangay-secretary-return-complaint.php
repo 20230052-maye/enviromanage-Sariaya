@@ -1,0 +1,108 @@
+<?php
+
+session_start();
+
+header("Content-Type: application/json");
+
+if(
+    !isset($_SESSION['user_id']) ||
+    $_SESSION['role'] != "barangay_secretary"
+){
+    echo json_encode([
+        "success"=>false,
+        "message"=>"Unauthorized."
+    ]);
+
+    exit;
+}
+
+
+$conn = new mysqli(
+    "localhost",
+    "u820562602_fleurscents",
+    "Aa2RmDG?Pe0",
+    "u820562602_fleurscents_db"
+);
+
+
+$conn->set_charset("utf8mb4");
+
+
+$id = intval($_POST["id"] ?? 0);
+
+$remarks = trim($_POST["remarks"] ?? "");
+
+$reason = trim($_POST["reason"] ?? "");
+
+$secretary = $_SESSION["user_id"];
+
+
+
+if($id <= 0){
+
+    echo json_encode([
+        "success"=>false,
+        "message"=>"Invalid complaint."
+    ]);
+
+    exit;
+
+}
+
+
+
+if($reason == ""){
+
+    echo json_encode([
+        "success"=>false,
+        "message"=>"Return reason is required."
+    ]);
+
+    exit;
+
+}
+
+
+
+$stmt = $conn->prepare("
+UPDATE complaints
+
+SET
+
+validation_status='Rejected',
+
+action_status='Returned',
+
+remarks=?,
+
+admin_notes=?,
+
+reviewed_by=?,
+
+reviewed_at=NOW()
+
+WHERE id=?
+
+AND validation_status='Under Review'
+
+");
+
+
+$stmt->bind_param(
+    "ssii",
+    $remarks,
+    $reason,
+    $secretary,
+    $id
+);
+
+
+$stmt->execute();
+
+
+
+echo json_encode([
+
+    "success"=>$stmt->affected_rows > 0
+
+]);
