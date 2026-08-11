@@ -11,6 +11,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
+
 /* ✅ FORCE PH TIMEZONE FOR MYSQL */
 $conn->query("SET time_zone = '+08:00'");
 ?>

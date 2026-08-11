@@ -5,7 +5,7 @@
 include "db.php";
 
 // Admin details (EDIT THIS IF YOU WANT)
-$email = "admin@enviromanage.com";
+$email = "enviromngsariaya@gmail.com";
 $username = "admin";
 $password = "Admin123"; // change this after login!
 
